@@ -114,6 +114,79 @@ public class Oblig1 {
         return teller;
     }
 
+    //Oppgave 4
+
+    public static void delsortering(int[] a) {
+        if (a.length == 0) {
+            return;
+        }
+        int partallindex = 0;
+        boolean ikkePlassert;
+        int temp;
+        for (int i = 0; i < a.length; i++) {//oddetal sortering
+            if ((a[i] % 2 == 1)||(a[i]%2 == -1)) {
+
+                temp = a[partallindex];
+                a[partallindex] = a[i];
+                a[i] = temp;
+                partallindex++;
+            }
+
+        }
+        if(partallindex > 1) { //hvis jeg fant 2 eller flere oddetall
+            int sortert = 0;
+            int oddetall;
+            int oddetallindex;
+
+            while (sortert < partallindex) {
+                oddetall = a[sortert];
+                oddetallindex = sortert;
+                for (int i = sortert+1;i < partallindex;i++) {
+                    if(oddetall > a[i]) {
+                        oddetall = a[i];
+                        oddetallindex = i;
+                    }
+                }
+                if(oddetallindex != sortert) {
+                    temp = a[sortert];
+                    a[sortert] = oddetall;
+                    a[oddetallindex]=temp;
+                    sortert++;
+                }
+                else {
+                    sortert++;
+                }
+
+            }
+        }
+
+        if(partallindex < a.length-1) { //hvis jeg har 2 eller flere partall
+            int sortert = partallindex;
+            int partall;
+
+            while (a.length-1 > sortert) {
+                partall = a[sortert];
+                partallindex = sortert;
+                for (int i = sortert+1;i < a.length;i++) {
+                    if(partall > a[i]) {
+                        partall = a[i];
+                        partallindex = i;
+                    }
+                }
+                if(partallindex != sortert) {
+                    temp = a[sortert];
+                    a[sortert] = partall;
+                    a[partallindex]=temp;
+                    sortert++;
+                }
+                else {
+                    sortert++;
+                }
+
+            }
+        }
+    }
+
     //Oppgave 5
     public static void rotasjon(char[] a) {
 
