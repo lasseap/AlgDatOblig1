@@ -23,6 +23,7 @@ public class Oblig1 {
         System.out.println(ombyttinger(a));
 
     }
+
     /*
     Oppgave 1
     Antall sammenligninger blir n-1 som blir O(n).
@@ -38,13 +39,13 @@ public class Oblig1 {
 
         for (int i = 1; i < a.length; i++) {
 
-            if(a[i-1] > a[i]) {
+            if (a[i - 1] > a[i]) {
                 temp = a[i];
-                a[i] = a[i-1];
-                a[i-1] = temp;
+                a[i] = a[i - 1];
+                a[i - 1] = temp;
             }
         }
-        return a[a.length-1];
+        return a[a.length - 1];
     }
 
     public static int ombyttinger(int[] a) {
@@ -54,12 +55,12 @@ public class Oblig1 {
         int temp; //midlertidig lagringvariabel
         int teller = 0;
 
-        for (int i = 1; i < a.length;i++) {
+        for (int i = 1; i < a.length; i++) {
 
-            if(a[i-1] > a[i]) {
+            if (a[i - 1] > a[i]) {
                 temp = a[i];
-                a[i] = a[i-1];
-                a[i-1] = temp;
+                a[i] = a[i - 1];
+                a[i - 1] = temp;
                 teller++;
             }
         }
@@ -71,17 +72,17 @@ public class Oblig1 {
         int teller = 0;
 
 
-        if(a.length == 0) {
+        if (a.length == 0) {
             return teller;
         }
         int tall = a[0];
         teller++;
-        for(int i = 1;i < a.length;i++) {
-            if(a[i] >tall ) {
+        for (int i = 1; i < a.length; i++) {
+            if (a[i] > tall) {
                 teller++;
                 tall = a[i];
             }
-            if(a[i] < tall) {
+            if (a[i] < tall) {
                 throw new IllegalStateException("Tabellen er ikke sortert");
             }
         }
@@ -93,21 +94,21 @@ public class Oblig1 {
         int teller = 0;
 
 
-        if(a.length == 0) {
+        if (a.length == 0) {
             return teller;
         }
         int tall; //hjelpevariabel hvilket tall
         boolean lik; // hjelpevariabel er tallet lik et tidligere tall
         teller++;// teller første tallet
-        for(int i = 1;i < a.length;i++) {
+        for (int i = 1; i < a.length; i++) {
             tall = a[i];
             lik = false;
-            for(int j = 0;j<i;j++) {
-                if(a[j] == tall) {
+            for (int j = 0; j < i; j++) {
+                if (a[j] == tall) {
                     lik = true;
                 }
             }
-            if(!lik) {
+            if (!lik) {
                 teller++;
             }
         }
@@ -120,72 +121,82 @@ public class Oblig1 {
         if (a.length == 0) {
             return;
         }
-        int partallindex = 0;
-        boolean ikkePlassert;
+        int partallindex = a.length-1;
+        int oddetallindex = 0;
         int temp;
-        for (int i = 0; i < a.length; i++) {//oddetal sortering
-            if ((a[i] % 2 == 1)||(a[i]%2 == -1)) {
 
-                temp = a[partallindex];
-                a[partallindex] = a[i];
-                a[i] = temp;
-                partallindex++;
+
+        boolean ikkePartisjonert = true;
+        while (ikkePartisjonert)                                  // stopper når v > h
+        {
+            while ((oddetallindex <= partallindex) && ((a[oddetallindex] % 2 == 1)||(a[oddetallindex] % 2 == -1))) {
+                oddetallindex++;   // partallindex er stoppverdi for oddetalsindex
+            }
+            while ((oddetallindex <= partallindex) && (a[partallindex] % 2 == 0)) {
+                partallindex--;  // oddetallindex er stoppverdi for partallindex
             }
 
+            if (oddetallindex < partallindex) {
+                temp = a[partallindex];
+                a[partallindex] = a[oddetallindex];
+                a[oddetallindex] = temp;
+            } else {
+                ikkePartisjonert = false;
+            }
         }
-        if(partallindex > 1) { //hvis jeg fant 2 eller flere oddetall
+        partallindex++;
+        oddetallindex--;
+        System.out.println(oddetallindex +" " +partallindex);
+        if (partallindex > 1) { //hvis jeg fant 2 eller flere oddetall
             int sortert = 0;
             int oddetall;
-            int oddetallindex;
 
             while (sortert < partallindex) {
                 oddetall = a[sortert];
                 oddetallindex = sortert;
-                for (int i = sortert+1;i < partallindex;i++) {
-                    if(oddetall > a[i]) {
+                for (int i = sortert + 1; i < partallindex; i++) {
+                    if (oddetall > a[i]) {
                         oddetall = a[i];
                         oddetallindex = i;
                     }
                 }
-                if(oddetallindex != sortert) {
+                if (oddetallindex != sortert) {
                     temp = a[sortert];
                     a[sortert] = oddetall;
-                    a[oddetallindex]=temp;
+                    a[oddetallindex] = temp;
                     sortert++;
-                }
-                else {
+                } else {
                     sortert++;
                 }
 
             }
         }
 
-        if(partallindex < a.length-1) { //hvis jeg har 2 eller flere partall
+        if (partallindex < a.length - 1) { //hvis jeg har 2 eller flere partall
             int sortert = partallindex;
             int partall;
 
-            while (a.length-1 > sortert) {
+            while (a.length - 1 > sortert) {
                 partall = a[sortert];
                 partallindex = sortert;
-                for (int i = sortert+1;i < a.length;i++) {
-                    if(partall > a[i]) {
+                for (int i = sortert + 1; i < a.length; i++) {
+                    if (partall > a[i]) {
                         partall = a[i];
                         partallindex = i;
                     }
                 }
-                if(partallindex != sortert) {
+                if (partallindex != sortert) {
                     temp = a[sortert];
                     a[sortert] = partall;
-                    a[partallindex]=temp;
+                    a[partallindex] = temp;
+                    sortert++;
+                } else {
                     sortert++;
                 }
-                else {
-                    sortert++;
-                }
-
             }
         }
     }
+
 
     //Oppgave 5
     public static void rotasjon(char[] a) {
