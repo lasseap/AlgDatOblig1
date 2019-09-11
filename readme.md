@@ -1,4 +1,4 @@
-# Obligatorisk oppgave 1 i Algoritmer og Datastrukturer
+# Obligatorisk oppgave 1 i Algoritmer og Datastrukturer 2019
 
 Denne oppgaven er en innlevering i Algoritmer og Datastrukturer. 
 Oppgaven er levert av følgende studenter:
