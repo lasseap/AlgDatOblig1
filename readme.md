@@ -11,5 +11,5 @@ Oppgaven er levert av følgende studenter:
 I oppgaven har vi hatt følgende arbeidsfordeling:
 * Andreas har hatt hovedansvar for oppgave 8, 9, og 10. 
 * Lasse har hatt hovedansvar for oppgave 5, 6, og 7. 
-* Fatima har hatt hovedansvar for oppgave 2, 3 og 4. 
+* Fredrik har hatt hovedansvar for oppgave 2, 3 og 4. 
 * Vi har i fellesskap løst oppgave 1. 
