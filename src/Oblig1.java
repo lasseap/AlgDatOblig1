@@ -108,6 +108,22 @@ public class Oblig1 {
         return teller;
     }
 
+    public static void rotasjon(char[] a) {
+
+        if(a.length < 2) {
+            return;
+        }
+
+        char temp; //midlertidig lagringvariabel
+
+        for(int i = 1; i < a.length; i++) {
+            temp = a[i];
+            a[i] = a[0];
+            a[0] = temp;
+        }
+
+    }
+
     public static int[] randPerm(int n)  // en effektiv versjon
     {
         Random r = new Random();         // en randomgenerator
