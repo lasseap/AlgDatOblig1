@@ -1,3 +1,7 @@
+// Lasse Apalnes Pedersem, s333761
+// Fredrik Arne Rikheim, s328084
+// Andreas Bjørkås Grymyr, s333778
+
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Random;
@@ -62,6 +66,7 @@ public class Oblig1 {
         return teller;
     }
 
+    //Oppgave 2
     public static int antallUlikeSortert(int[] a) {
         int teller = 0;
 
@@ -83,6 +88,7 @@ public class Oblig1 {
         return teller;
     }
 
+    //Oppgave 3
     public static int antallUlikeUsortert(int[] a) {
         int teller = 0;
 
@@ -108,6 +114,7 @@ public class Oblig1 {
         return teller;
     }
 
+    //Oppgave 5
     public static void rotasjon(char[] a) {
 
         if(a.length < 2) {
