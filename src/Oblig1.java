@@ -62,6 +62,52 @@ public class Oblig1 {
         return teller;
     }
 
+    public static int antallUlikeSortert(int[] a) {
+        int teller = 0;
+
+
+        if(a.length == 0) {
+            return teller;
+        }
+        int tall = a[0];
+        teller++;
+        for(int i = 1;i < a.length;i++) {
+            if(a[i] >tall ) {
+                teller++;
+                tall = a[i];
+            }
+            if(a[i] < tall) {
+                throw new IllegalStateException("Tabellen er ikke sortert");
+            }
+        }
+        return teller;
+    }
+
+    public static int antallUlikeUsortert(int[] a) {
+        int teller = 0;
+
+
+        if(a.length == 0) {
+            return teller;
+        }
+        int tall; //hjelpevariabel hvilket tall
+        boolean lik; // hjelpevariabel er tallet lik et tidligere tall
+        teller++;// teller første tallet
+        for(int i = 1;i < a.length;i++) {
+            tall = a[i];
+            lik = false;
+            for(int j = 0;j<i;j++) {
+                if(a[j] == tall) {
+                    lik = true;
+                }
+            }
+            if(!lik) {
+                teller++;
+            }
+        }
+        return teller;
+    }
+
     public static int[] randPerm(int n)  // en effektiv versjon
     {
         Random r = new Random();         // en randomgenerator

@@ -78,7 +78,7 @@ public class Oblig1Test {
     }
 
     ///// Oppgave 2 /////////////////////////////////////
-    /*@org.junit.jupiter.api.Test
+    @org.junit.jupiter.api.Test
     void oppgave2() {
         int antallFeil = 0;
 
@@ -170,7 +170,7 @@ public class Oblig1Test {
     }
 
     ///// Oppgave 4 //////////////////////////////////////
-    @org.junit.jupiter.api.Test
+    /*@org.junit.jupiter.api.Test
     void oppgave4() {
         int antallFeil = 0;
 
