@@ -215,6 +215,40 @@ public class Oblig1 {
 
     }
 
+    //Oppgave 6
+    public static void rotasjon(char[] a, int k) {
+
+        if(a.length < 2) {
+            return;
+        }
+
+        char temp; //midlertidig lagringvariabel
+
+        if(k > 0) {
+            for (int i = 1; i <= k; i++) {
+                temp = a[a.length - 1];
+                for(int j = a.length - 1; j > 0; j--) {
+                    a[j] = a[j - 1];
+                }
+                a[0] = temp;
+            }
+        }
+        else if(k == 0) {
+            return;
+        }
+        else {
+            k = -(k);
+            for (int i = 0; i < k; i++) {
+                temp = a[0];
+                for(int j = 0; j < a.length - 1; j++) {
+                    a[j] = a[j+1];
+                }
+                a[a.length - 1] = temp;
+            }
+        }
+
+    }
+
     public static int[] randPerm(int n)  // en effektiv versjon
     {
         Random r = new Random();         // en randomgenerator
