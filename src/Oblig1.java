@@ -10,6 +10,7 @@ public class Oblig1 {
 
 
     public static void main(String[] args) {
+
         int[] a = randPerm(20);
         randPerm(a);
         System.out.println(ombyttinger(a));
@@ -218,13 +219,22 @@ public class Oblig1 {
     //Oppgave 6
     public static void rotasjon(char[] a, int k) {
 
-        if(a.length < 2) {
+        if(a.length < 2 || (k % a.length) == 0) {
             return;
         }
 
         char temp; //midlertidig lagringvariabel
 
+        if(k > a.length) {
+            k = k - a.length;
+        }
+
+        if(k > (a.length / 2)) {
+            k = k - a.length;
+        }
+
         if(k > 0) {
+
             for (int i = 1; i <= k; i++) {
                 temp = a[a.length - 1];
                 for(int j = a.length - 1; j > 0; j--) {
@@ -238,6 +248,7 @@ public class Oblig1 {
         }
         else {
             k = -(k);
+
             for (int i = 0; i < k; i++) {
                 temp = a[0];
                 for(int j = 0; j < a.length - 1; j++) {
