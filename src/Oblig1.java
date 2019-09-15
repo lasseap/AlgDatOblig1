@@ -231,27 +231,18 @@ public class Oblig1 {
         }
 
         if(k > 0) {
-            /*
-            for (int i = 1; i <= k; i++) {
-                temp = a[a.length - 1];
-                for(int j = a.length - 1; j > 0; j--) {
-                    a[j] = a[j - 1];
-                }
-                a[0] = temp;
-            }
-             */
-
             int i, j, l;
-            int g_c_d = gcd(k, a.length);
-            for (i = 0; i < g_c_d; i++) {
-                temp = a[i];
-                j = i;
+            int gcd = gcd(k, a.length);
+
+            for (i = 0; i < gcd; i++) {
+                temp = a[a.length - 1 - i];
+                j = a.length - 1 - i;
                 while(true) {
-                    l = j + k;
-                    if(l >= a.length) {
-                        l = l - a.length;
+                    l = j - k;
+                    if(l < 0) {
+                        l = l + a.length;
                     }
-                    if(l == i) {
+                    if(l == a.length - 1 - i) {
                         break;
                     }
                     a[j] = a[l];
