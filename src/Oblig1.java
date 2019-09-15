@@ -132,7 +132,7 @@ public class Oblig1 {
 
 
         boolean ikkePartisjonert = true;
-        while (ikkePartisjonert)                                  // stopper når v > h
+        while (ikkePartisjonert)                                  // stopper når venstre(oddetalsindex) > hoyre(partallsindex)
         {
             while ((oddetallindex <= partallindex) && ((a[oddetallindex] % 2 == 1)||(a[oddetallindex] % 2 == -1))) {
                 oddetallindex++;   // partallindex er stoppverdi for oddetalsindex
@@ -151,55 +151,39 @@ public class Oblig1 {
         }
         partallindex++;
         oddetallindex--;
-        System.out.println(oddetallindex +" " +partallindex);
-        if (partallindex > 1) { //hvis jeg fant 2 eller flere oddetall
-            int sortert = 0;
-            int oddetall;
+        quickSort(a,0,oddetallindex);
+        quickSort(a,partallindex,a.length-1);
+    }
 
-            while (sortert < partallindex) {
-                oddetall = a[sortert];
-                oddetallindex = sortert;
-                for (int i = sortert + 1; i < partallindex; i++) {
-                    if (oddetall > a[i]) {
-                        oddetall = a[i];
-                        oddetallindex = i;
-                    }
-                }
-                if (oddetallindex != sortert) {
-                    temp = a[sortert];
-                    a[sortert] = oddetall;
-                    a[oddetallindex] = temp;
-                    sortert++;
-                } else {
-                    sortert++;
-                }
+    private static void quickSort(int[] a, int fra, int til) { //Hjelpefunksjon for delsortering i oppgave 4
+        if (fra < til) {
+            int partitionIndex = parter(a,fra,til);
 
-            }
+            quickSort(a, fra, partitionIndex-1);
+            quickSort(a,partitionIndex+1,til);
         }
 
-        if (partallindex < a.length - 1) { //hvis jeg har 2 eller flere partall
-            int sortert = partallindex;
-            int partall;
+    }
 
-            while (a.length - 1 > sortert) {
-                partall = a[sortert];
-                partallindex = sortert;
-                for (int i = sortert + 1; i < a.length; i++) {
-                    if (partall > a[i]) {
-                        partall = a[i];
-                        partallindex = i;
-                    }
-                }
-                if (partallindex != sortert) {
-                    temp = a[sortert];
-                    a[sortert] = partall;
-                    a[partallindex] = temp;
-                    sortert++;
-                } else {
-                    sortert++;
-                }
+    private static int parter(int[] a, int fra, int til) { //Hjelpefunksjon for quicksort i oppgave 4
+        int pivot = a[til]; //Velger bakerste
+        int i = (fra-1);
+
+        for (int j = fra; j < til; j++) {
+            if (a[j] <= pivot) {
+                i++;
+
+                int temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
             }
         }
+// Flytter pivot etter de som er mindre
+        int temp = a[i+1];
+        a[i+1] = a[til];
+        a[til] = temp;
+
+        return i+1;
     }
 
 
