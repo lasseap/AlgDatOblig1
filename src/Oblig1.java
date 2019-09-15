@@ -10,20 +10,18 @@ public class Oblig1 {
 
 
     public static void main(String[] args) {
+        for (int j = 0;j < 20;j++) {
 
-        /*
-        int[] a = randPerm(20);
-        randPerm(a);
-        System.out.println(ombyttinger(a));
-        randPerm(a);
-        System.out.println(ombyttinger(a));
-        randPerm(a);
-        System.out.println(ombyttinger(a));
-        randPerm(a);
-        System.out.println(ombyttinger(a));
-        randPerm(a);
-        System.out.println(ombyttinger(a));
-         */
+            int ombyttinger1 = 0;
+
+            for (int i = 0; i < 100; i++) {
+                int[] a = randPerm(100000);
+                ombyttinger1 += ombyttinger(a);
+
+            }
+            System.out.println(ombyttinger1 / 100);
+        }
+
 
         char[] a = {'A','B','C','D','E','F','G','H','I','J'};
 
@@ -34,7 +32,7 @@ public class Oblig1 {
     Antall sammenligninger blir n-1 som blir O(n).
     Det blir flest ombyttinger når det største tallet er første elementet i arrayen.
     Det blir færrest ombyttinger når største tallet er sist i arrayen.
-    Gjennomsnittlig antall ombyttninger blir...
+    Gjennomsnittlig antall ombyttninger blir litt mindre enn n, Dette betyr at ...
      */
     public static int maks(int[] a) {
         if (a.length == 0) {
