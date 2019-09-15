@@ -11,6 +11,7 @@ public class Oblig1 {
 
     public static void main(String[] args) {
 
+        /*
         int[] a = randPerm(20);
         randPerm(a);
         System.out.println(ombyttinger(a));
@@ -22,6 +23,9 @@ public class Oblig1 {
         System.out.println(ombyttinger(a));
         randPerm(a);
         System.out.println(ombyttinger(a));
+         */
+
+        char[] a = {'A','B','C','D','E','F','G','H','I','J'};
 
     }
 
@@ -217,6 +221,17 @@ public class Oblig1 {
     }
 
     //Oppgave 6
+    public static int gcd(int a, int b) { // Metode for å finne største fellesnevner
+                                          // (hjelpemetode til oppgave 6)
+        if (b == 0) {
+            return a;
+        }
+        else {
+            return gcd(b, a % b);
+        }
+
+    }
+
     public static void rotasjon(char[] a, int k) {
 
         if(a.length < 2 || (k % a.length) == 0) {
@@ -234,7 +249,7 @@ public class Oblig1 {
         }
 
         if(k > 0) {
-
+            /*
             for (int i = 1; i <= k; i++) {
                 temp = a[a.length - 1];
                 for(int j = a.length - 1; j > 0; j--) {
@@ -242,6 +257,27 @@ public class Oblig1 {
                 }
                 a[0] = temp;
             }
+             */
+
+            int i, j, l;
+            int g_c_d = gcd(k, a.length);
+            for (i = 0; i < g_c_d; i++) {
+                temp = a[i];
+                j = i;
+                while(true) {
+                    l = j + k;
+                    if(l >= a.length) {
+                        l = l - a.length;
+                    }
+                    if(l == i) {
+                        break;
+                    }
+                    a[j] = a[l];
+                    j = l;
+                }
+                a[j] = temp;
+            }
+
         }
         else if(k == 0) {
             return;
@@ -249,12 +285,23 @@ public class Oblig1 {
         else {
             k = -(k);
 
-            for (int i = 0; i < k; i++) {
-                temp = a[0];
-                for(int j = 0; j < a.length - 1; j++) {
-                    a[j] = a[j+1];
+            int i, j, l;
+            int g_c_d = gcd(k, a.length);
+            for (i = 0; i < g_c_d; i++) {
+                temp = a[i];
+                j = i;
+                while(true) {
+                    l = j + k;
+                    if(l >= a.length) {
+                        l = l - a.length;
+                    }
+                    if(l == i) {
+                        break;
+                    }
+                    a[j] = a[l];
+                    j = l;
                 }
-                a[a.length - 1] = temp;
+                a[j] = temp;
             }
         }
 
