@@ -260,6 +260,83 @@ public class Oblig1 {
 
     }
 
+    //Oppgave 7
+    //a)
+    public static String flett(String s, String t) {
+        String[] as = s.split("(?!^)");
+        String[] at = t.split("(?!^)");
+
+        String[] temp;
+        String result = "";
+        if(as.length > at.length) {
+            temp = new String[at.length + 1];
+            String rest = "";
+            for(int i = 0; i < at.length; i++) {
+                temp[i] = as[i];
+            }
+            for(int i = at.length; i < as.length; i++) {
+                rest += as[i];
+            }
+            temp[temp.length - 1] = rest;
+
+            for(int i = 0; i < temp.length - 1; i++) {
+                result += temp[i] + at[i];
+            }
+            result += temp[temp.length - 1];
+        }
+        else {
+            temp = new String[as.length + 1];
+            String rest = "";
+            for(int i = 0; i < as.length; i++) {
+                temp[i] = at[i];
+            }
+            for(int i = as.length; i < at.length; i++) {
+                rest += at[i];
+            }
+            temp[temp.length - 1] = rest;
+
+            for(int i = 0; i < temp.length - 1; i++) {
+                result += as[i] + temp[i];
+            }
+            result += temp[temp.length - 1];
+        }
+
+        return result;
+    }
+
+    //b)
+    public static String flett(String... s) {
+        String result = "";
+
+        String[] temp;
+        int[] tempLen = new int[s.length];
+        int maxTemp = 2; // Forutsetter at vi har minst ett element i s som har to
+                         // eller flere karakterer
+        for( int j = 0; j < maxTemp; j++) {
+            for (int i = 0; i < s.length; i++) {
+                temp = s[i].split("(?!^)");
+                tempLen[i] = temp.length;
+                if (i > 0) {
+                    if (temp.length > maxTemp) {
+                        maxTemp = temp.length;
+                    }
+                }
+                int teller = i;
+                i = j;
+
+                if (i >= temp.length) {
+                    result += "";
+                }
+                else {
+                    result += temp[i];
+                }
+                i = teller;
+            }
+        }
+
+        return result;
+    }
+
     public static int[] randPerm(int n)  // en effektiv versjon
     {
         Random r = new Random();         // en randomgenerator
