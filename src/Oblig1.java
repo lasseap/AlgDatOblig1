@@ -19,7 +19,7 @@ public class Oblig1 {
     Det blir flest ombyttinger nar det storste tallet er forste elementet i arrayen.
     Det blir faerrest ombyttinger nar storste tallet er sist i arrayen.
     Gjennomsnittlig antall ombyttninger blir litt mindre enn n.
-    Dette betyr at denne maks metoden er litt bedre enn de vi har sett på tidligere, men den er også O(n) som de andre.
+    Dette betyr at denne maks metoden er litt bedre enn de vi har sett pa tidligere, men den er ogsa O(n) som de andre.
      */
     public static int maks(int[] a) {
         if (a.length == 0) {
@@ -391,8 +391,6 @@ public class Oblig1 {
         if(a.length == 3){
             return x_indeks;
         }
-
-        System.out.println("Før forløkken");
 
         for(int i = 3; i<a.length; i++){
             if(a[i] < minste){
