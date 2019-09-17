@@ -8,12 +8,6 @@ import java.util.Random;
 
 public class Oblig1 {
 
-
-    public static void main(String[] args) {
-
-
-    }
-
     /*
     Oppgave 1
     Antall sammenligninger blir n-1 som blir O(n).
@@ -458,149 +452,105 @@ public class Oblig1 {
             return false;
         }
 
-        String[] a_array = a.split("(?!^)");
-        String[] b_array = b.split("(?!^)");
+        char[] a_array = a.toCharArray();
+        char[] b_array = b.toCharArray();
 
-        sort(a_array,0,a_array.length - 1);
-        sort(b_array,0,b_array.length - 1);
+        int[] alfabet = new int[29];
 
-        int i = 0;
-        int j = 0;
-        int indeksA = 0;
-        int indeksB;
-        while(i < a_array.length && j < b_array.length) {
+        for(int i = 0; i < alfabet.length; i++) {
+            alfabet[i] = 0;
+        }
 
-            if(a_array[i].compareTo(b_array[j]) < 0) {
-                return false;
-            }
-            else if(a_array[i].compareTo(b_array[j]) > 0) {
-                if(j == b_array.length - 1) {
-                    return false;
-                }
-                else {
-                    j++;
-                }
-            }
-            else {
-                i++;
-                j++;
-            }
-            /*
-            if(!b.contains(sjekk)) {
-                return false;
-            }
-            indeksA = i;
-            int indeksAMaks = binarySearch(a_array,0,a_array.length,sjekk);
-            System.out.println(indeksAMaks);
-            int indeksB = Arrays.asList(b_array).indexOf(sjekk);
-            indeksB += indeksAMaks - indeksA;
-            if(indeksB >= b_array.length) {
-                return false;
-            }
-            if(sjekk.compareTo(b_array[indeksB]) != 0) {
-                return false;
-            }
+        int indeks = 0;
 
-            i = indeksAMaks + 1;
-             */
+        for(int i = 0; i < a_array.length; i++) {
+            indeks = bokstavNr(a_array[i]);
+            alfabet[indeks]++;
+        }
+
+        for(int i = 0; i < b_array.length; i++) {
+            indeks = bokstavNr(b_array[i]);
+            if(alfabet[indeks] > 0) { // sjekker om bokstaven er i a-arrayet
+                alfabet[indeks]--;
+            }
+        }
+
+        int sum = 0;
+
+        for(int i = 0; i < alfabet.length; i++) {
+            sum += alfabet[i];
+        }
+
+        if(sum != 0) { // hvis summen ikke er 0 vil det si at b-arrayet ikke inneholdt
+                       // alle bokstavene i a-arrayet
+            return false;
         }
 
         return true;
     }
 
-    private static int binarySearch(String[] a, int fra, int til, String verdi) { // kjoerer metoden baklengs for aa
-                                                                                  // finne stoerste indeks
-        int v = fra;
-        int h = til - 1;
-
-        while(v <= h) {
-            int m = (v + h) / 2;
-            String midtverdi = a[m];
-
-            if(verdi.compareTo(midtverdi) == 0) {
-                return m;
-            }
-            else if(verdi.compareTo(midtverdi) > 0) {
-                v = m + 1;
-            }
-            else {
-                h = m - 1;
-            }
-        }
-        return -(v + 1); // ikke funnet
-    }
-
-    static void merge(String arr[], int l, int m, int r)
-    {
-        // Find sizes of two subarrays to be merged
-        int n1 = m - l + 1;
-        int n2 = r - m;
-
-        /* Create temp arrays */
-        String L[] = new String [n1];
-        String R[] = new String [n2];
-
-        /*Copy data to temp arrays*/
-        for (int i=0; i<n1; ++i)
-            L[i] = arr[l + i];
-        for (int j=0; j<n2; ++j)
-            R[j] = arr[m + 1+ j];
-
-
-        /* Merge the temp arrays */
-
-        // Initial indexes of first and second subarrays
-        int i = 0, j = 0;
-
-        // Initial index of merged subarry array
-        int k = l;
-        while (i < n1 && j < n2)
-        {
-            if (L[i].compareTo(R[j]) <= 0)
-            {
-                arr[k] = L[i];
-                i++;
-            }
-            else
-            {
-                arr[k] = R[j];
-                j++;
-            }
-            k++;
-        }
-
-        /* Copy remaining elements of L[] if any */
-        while (i < n1)
-        {
-            arr[k] = L[i];
-            i++;
-            k++;
-        }
-
-        /* Copy remaining elements of R[] if any */
-        while (j < n2)
-        {
-            arr[k] = R[j];
-            j++;
-            k++;
-        }
-    }
-
-    // Main function that sorts arr[l..r] using
-    // merge()
-    static void sort(String arr[], int l, int r)
-    {
-        if (l < r)
-        {
-            // Find the middle point
-            int m = (l+r)/2;
-
-            // Sort first and second halves
-            sort(arr, l, m);
-            sort(arr , m+1, r);
-
-            // Merge the sorted halves
-            merge(arr, l, m, r);
+    private static int bokstavNr(char bokstav) {
+        switch (bokstav) {
+            case 'A':
+                return 0;
+            case 'B':
+                return 1;
+            case 'C':
+                return 2;
+            case 'D':
+                return 3;
+            case 'E':
+                return 4;
+            case 'F':
+                return 5;
+            case 'G':
+                return 6;
+            case 'H':
+                return 7;
+            case 'I':
+                return 8;
+            case 'J':
+                return 9;
+            case 'K':
+                return 10;
+            case 'L':
+                return 11;
+            case 'M':
+                return 12;
+            case 'N':
+                return 13;
+            case 'O':
+                return 14;
+            case 'P':
+                return 15;
+            case 'Q':
+                return 16;
+            case 'R':
+                return 17;
+            case 'S':
+                return 18;
+            case 'T':
+                return 19;
+            case 'U':
+                return 20;
+            case 'V':
+                return 21;
+            case 'W':
+                return 22;
+            case 'X':
+                return 23;
+            case 'Y':
+                return 24;
+            case 'Z':
+                return 25;
+            case 'Æ':
+                return 26;
+            case 'Ø':
+                return 27;
+            case 'Å':
+                return 28;
+            default:
+                return -1;
         }
     }
 }
