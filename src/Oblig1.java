@@ -410,4 +410,30 @@ public class Oblig1 {
             bytt(a,k,i);
         }
     }
+
+    //Oppgave 10
+    public static boolean inneholdt(String a, String b) {
+        if(a == "") {
+            return true;
+        }
+        String[] a_array = a.split("(?!^)");
+        String[] b_array = b.split("(?!^)");
+
+        int teller = 0;
+
+        for(int i = 0; i < a_array.length; i++) {
+            for(int j = 0; j < b_array.length; j++) {
+                if(a_array[i].compareTo(b_array[j]) == 0) {
+                    teller++;
+                    b_array[j] = "";
+                    break;
+                }
+            }
+        }
+        if(teller < a_array.length) {
+            return false;
+        }
+
+        return true;
+    }
 }
