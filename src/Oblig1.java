@@ -11,6 +11,7 @@ public class Oblig1 {
 
     public static void main(String[] args) {
 
+
     }
 
     /*
@@ -453,24 +454,153 @@ public class Oblig1 {
         if(a == "") {
             return true;
         }
-        String[] a_array = a.split("(?!^)");
-        String[] b_array = b.split("(?!^)");
-
-        int teller = 0;
-
-        for(int i = 0; i < a_array.length; i++) {
-            for(int j = 0; j < b_array.length; j++) {
-                if(a_array[i].compareTo(b_array[j]) == 0) {
-                    teller++;
-                    b_array[j] = "";
-                    break;
-                }
-            }
-        }
-        if(teller < a_array.length) {
+        if(b == "") {
             return false;
         }
 
+        String[] a_array = a.split("(?!^)");
+        String[] b_array = b.split("(?!^)");
+
+        sort(a_array,0,a_array.length - 1);
+        sort(b_array,0,b_array.length - 1);
+
+        int i = 0;
+        int j = 0;
+        int indeksA = 0;
+        int indeksB;
+        while(i < a_array.length && j < b_array.length) {
+
+            if(a_array[i].compareTo(b_array[j]) < 0) {
+                return false;
+            }
+            else if(a_array[i].compareTo(b_array[j]) > 0) {
+                if(j == b_array.length - 1) {
+                    return false;
+                }
+                else {
+                    j++;
+                }
+            }
+            else {
+                i++;
+                j++;
+            }
+            /*
+            if(!b.contains(sjekk)) {
+                return false;
+            }
+            indeksA = i;
+            int indeksAMaks = binarySearch(a_array,0,a_array.length,sjekk);
+            System.out.println(indeksAMaks);
+            int indeksB = Arrays.asList(b_array).indexOf(sjekk);
+            indeksB += indeksAMaks - indeksA;
+            if(indeksB >= b_array.length) {
+                return false;
+            }
+            if(sjekk.compareTo(b_array[indeksB]) != 0) {
+                return false;
+            }
+
+            i = indeksAMaks + 1;
+             */
+        }
+
         return true;
+    }
+
+    private static int binarySearch(String[] a, int fra, int til, String verdi) { // kjoerer metoden baklengs for aa
+                                                                                  // finne stoerste indeks
+        int v = fra;
+        int h = til - 1;
+
+        while(v <= h) {
+            int m = (v + h) / 2;
+            String midtverdi = a[m];
+
+            if(verdi.compareTo(midtverdi) == 0) {
+                return m;
+            }
+            else if(verdi.compareTo(midtverdi) > 0) {
+                v = m + 1;
+            }
+            else {
+                h = m - 1;
+            }
+        }
+        return -(v + 1); // ikke funnet
+    }
+
+    static void merge(String arr[], int l, int m, int r)
+    {
+        // Find sizes of two subarrays to be merged
+        int n1 = m - l + 1;
+        int n2 = r - m;
+
+        /* Create temp arrays */
+        String L[] = new String [n1];
+        String R[] = new String [n2];
+
+        /*Copy data to temp arrays*/
+        for (int i=0; i<n1; ++i)
+            L[i] = arr[l + i];
+        for (int j=0; j<n2; ++j)
+            R[j] = arr[m + 1+ j];
+
+
+        /* Merge the temp arrays */
+
+        // Initial indexes of first and second subarrays
+        int i = 0, j = 0;
+
+        // Initial index of merged subarry array
+        int k = l;
+        while (i < n1 && j < n2)
+        {
+            if (L[i].compareTo(R[j]) <= 0)
+            {
+                arr[k] = L[i];
+                i++;
+            }
+            else
+            {
+                arr[k] = R[j];
+                j++;
+            }
+            k++;
+        }
+
+        /* Copy remaining elements of L[] if any */
+        while (i < n1)
+        {
+            arr[k] = L[i];
+            i++;
+            k++;
+        }
+
+        /* Copy remaining elements of R[] if any */
+        while (j < n2)
+        {
+            arr[k] = R[j];
+            j++;
+            k++;
+        }
+    }
+
+    // Main function that sorts arr[l..r] using
+    // merge()
+    static void sort(String arr[], int l, int r)
+    {
+        if (l < r)
+        {
+            // Find the middle point
+            int m = (l+r)/2;
+
+            // Sort first and second halves
+            sort(arr, l, m);
+            sort(arr , m+1, r);
+
+            // Merge the sorted halves
+            merge(arr, l, m, r);
+        }
     }
 }
