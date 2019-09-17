@@ -10,20 +10,6 @@ public class Oblig1 {
 
 
     public static void main(String[] args) {
-        for (int j = 0;j < 20;j++) {
-
-            int ombyttinger1 = 0;
-
-            for (int i = 0; i < 100; i++) {
-                int[] a = randPerm(100000);
-                ombyttinger1 += ombyttinger(a);
-
-            }
-            System.out.println(ombyttinger1 / 100);
-        }
-
-
-        char[] a = {'A','B','C','D','E','F','G','H','I','J'};
 
     }
 
@@ -383,7 +369,56 @@ public class Oblig1 {
     }
     // Oppgave 9
 
+    public static int [] tredjeMin (int [] a){
+        if(a.length < 3){
+            throw new NoSuchElementException("Arrayen er for kort.");
+        }
 
+        int [] x_indeks;
+
+        int [] x = new int[3];
+        System.arraycopy(a, 0, x, 0, 3);
+        x_indeks = Oblig1.indekssortering(x);
+
+        int minste_indeks = x_indeks[0];
+        int nesteminste_indeks = x_indeks[1];
+        int tredjeminste_indeks = x_indeks[2];
+
+        int minste = a[minste_indeks];
+        int nesteminste = a[nesteminste_indeks];
+        int tredjeminste = a[tredjeminste_indeks];
+
+        if(a.length == 3){
+            return x_indeks;
+        }
+
+        System.out.println("Før forløkken");
+
+        for(int i = 3; i<a.length; i++){
+            if(a[i] < minste){
+                tredjeminste = nesteminste;
+                tredjeminste_indeks = nesteminste_indeks;
+                nesteminste = minste;
+                nesteminste_indeks = minste_indeks;
+                minste = a[i];
+                minste_indeks = i;
+            }
+            else if(a[i] < nesteminste){
+                tredjeminste = nesteminste;
+                tredjeminste_indeks = nesteminste_indeks;
+                nesteminste = a[i];
+                nesteminste_indeks = i;
+            }
+            else if(a[i] < tredjeminste){
+                tredjeminste = a[i];
+                tredjeminste_indeks = i;
+            }
+        }
+        x_indeks[0] = minste_indeks;
+        x_indeks[1] = nesteminste_indeks;
+        x_indeks[2] = tredjeminste_indeks;
+        return x_indeks;
+    }
     public static int[] randPerm(int n)  // en effektiv versjon
     {
         Random r = new Random();         // en randomgenerator
