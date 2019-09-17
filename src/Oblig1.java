@@ -362,9 +362,13 @@ public class Oblig1 {
         if(a.length == 0){
             return a;
         }
+        if(a.length == 1){
+            int [] indeksarray = {0};
+            return indeksarray;
+        }
         int [] x = a.clone(); // Kloner a
-        quickSort(x, 0, x.length); // Bruker quicksort til a sortere den klonede arrayet
-        int [] indeksarray = new int[a.length-1];
+        quickSort(x, 0, x.length-1); // Bruker quicksort til a sortere den klonede arrayet
+        int [] indeksarray = new int[a.length];
         int indeks = 0;
 
         for (int i = 0; i < x.length; i++) {
