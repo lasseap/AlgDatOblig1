@@ -17,3 +17,9 @@ I oppgaven har vi hatt følgende arbeidsfordeling:
 # Resultat av testprogrammet
 
 Alle testene blir godkjent og testprogrammet gir "Process finished with exit code 0" i output.
+
+# Warnings
+
+Fikk til slutt 23 warnings. Disse besto i hovedsak av private/public-problematikk, og noe stringkonkatinering. Disse valgte vi å ignorere
+da vi ikke anså disse til å være verken relevante eller viktige for dette kurset, og vi vet ikke helt hvordan vi skulle håndtert disse
+warningsene. 
