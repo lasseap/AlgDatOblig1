@@ -235,7 +235,7 @@ public class Oblig1 {
 
         }
         else if(k == 0) {
-            return;
+
         }
         else {
             k = -(k);
@@ -273,9 +273,7 @@ public class Oblig1 {
         if(as.length > at.length) {
             temp = new String[at.length + 1];
             String rest = "";
-            for(int i = 0; i < at.length; i++) {
-                temp[i] = as[i];
-            }
+            System.arraycopy(as, 0, temp, 0, at.length);
             for(int i = at.length; i < as.length; i++) {
                 rest += as[i];
             }
@@ -289,9 +287,7 @@ public class Oblig1 {
         else {
             temp = new String[as.length + 1];
             String rest = "";
-            for(int i = 0; i < as.length; i++) {
-                temp[i] = at[i];
-            }
+            System.arraycopy(at, 0, temp, 0, as.length);
             for(int i = as.length; i < at.length; i++) {
                 rest += at[i];
             }
@@ -445,10 +441,10 @@ public class Oblig1 {
 
     //Oppgave 10
     public static boolean inneholdt(String a, String b) {
-        if(a == "") {
+        if(a.equals("")) {
             return true;
         }
-        if(b == "") {
+        if(b.equals("")) {
             return false;
         }
 
@@ -461,32 +457,29 @@ public class Oblig1 {
             alfabet[i] = 0;
         }
 
-        int indeks = 0;
+        int indeks;
 
-        for(int i = 0; i < a_array.length; i++) {
-            indeks = bokstavNr(a_array[i]);
+        for (char c : a_array) {
+            indeks = bokstavNr(c);
             alfabet[indeks]++;
         }
 
-        for(int i = 0; i < b_array.length; i++) {
-            indeks = bokstavNr(b_array[i]);
-            if(alfabet[indeks] > 0) { // sjekker om bokstaven er i a-arrayet
+        for (char c : b_array) {
+            indeks = bokstavNr(c);
+            if (alfabet[indeks] > 0) { // sjekker om bokstaven er i a-arrayet
                 alfabet[indeks]--;
             }
         }
 
         int sum = 0;
 
-        for(int i = 0; i < alfabet.length; i++) {
-            sum += alfabet[i];
+        for (int value : alfabet) {
+            sum += value;
         }
 
-        if(sum != 0) { // hvis summen ikke er 0 vil det si at b-arrayet ikke inneholdt
-                       // alle bokstavene i a-arrayet
-            return false;
-        }
+        // Summen bli 0 hvis alle bokstaver i a-arrayet var inneholdt i b-arrayet
+        return sum == 0; // returnerer true om summen er lik 0, eller returneres false
 
-        return true;
     }
 
     private static int bokstavNr(char bokstav) {
