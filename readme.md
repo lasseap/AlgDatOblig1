@@ -13,3 +13,7 @@ I oppgaven har vi hatt følgende arbeidsfordeling:
 * Lasse har hatt hovedansvar for oppgave 5, 6, og 7. 
 * Fredrik har hatt hovedansvar for oppgave 2, 3 og 4. 
 * Vi har i fellesskap løst oppgave 1 og 10. 
+
+# Resultat av testprogrammet
+
+Alle testene blir godkjent og testprogrammet gir "Process finished with exit code 0" i output.
