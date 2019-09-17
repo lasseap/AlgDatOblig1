@@ -1,6 +1,6 @@
 // Lasse Apalnes Pedersem, s333761
 // Fredrik Arne Rikheim, s328084
-// Andreas Bjørkås Grymyr, s333778
+// Andreas Bjorkas Grymyr, s333778
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
@@ -30,9 +30,10 @@ public class Oblig1 {
     /*
     Oppgave 1
     Antall sammenligninger blir n-1 som blir O(n).
-    Det blir flest ombyttinger når det største tallet er første elementet i arrayen.
-    Det blir færrest ombyttinger når største tallet er sist i arrayen.
-    Gjennomsnittlig antall ombyttninger blir litt mindre enn n, Dette betyr at ...
+    Det blir flest ombyttinger nar det storste tallet er forste elementet i arrayen.
+    Det blir faerrest ombyttinger nar storste tallet er sist i arrayen.
+    Gjennomsnittlig antall ombyttninger blir litt mindre enn n.
+    Dette betyr at denne maks metoden er litt bedre enn de vi har sett på tidligere, men den er også O(n) som de andre.
      */
     public static int maks(int[] a) {
         if (a.length == 0) {
@@ -102,7 +103,7 @@ public class Oblig1 {
         }
         int tall; //hjelpevariabel hvilket tall
         boolean lik; // hjelpevariabel er tallet lik et tidligere tall
-        teller++;// teller første tallet
+        teller++;// teller forste tallet
         for (int i = 1; i < a.length; i++) {
             tall = a[i];
             lik = false;
@@ -130,7 +131,7 @@ public class Oblig1 {
 
 
         boolean ikkePartisjonert = true;
-        while (ikkePartisjonert)                                  // stopper når venstre(oddetalsindex) > hoyre(partallsindex)
+        while (ikkePartisjonert)                                  // stopper nar venstre(oddetalsindex) > hoyre(partallsindex)
         {
             while ((oddetallindex <= partallindex) && ((a[oddetallindex] % 2 == 1)||(a[oddetallindex] % 2 == -1))) {
                 oddetallindex++;   // partallindex er stoppverdi for oddetalsindex
@@ -153,12 +154,12 @@ public class Oblig1 {
         quickSort(a,partallindex,a.length-1);
     }
 
-    private static void quickSort(int[] a, int fra, int til) { //Hjelpefunksjon for delsortering i oppgave 4
+    private static void quickSort(int[] a, int fra, int til) { //Hjelpefunksjon for delsortering i oppgave 4 og 8
         if (fra < til) {
             int partitionIndex = parter(a,fra,til);
 
             quickSort(a, fra, partitionIndex-1);
-            quickSort(a,partitionIndex+1,til);
+            quickSort(a,partitionIndex+1, til);
         }
 
     }
@@ -203,7 +204,7 @@ public class Oblig1 {
     }
 
     //Oppgave 6
-    public static int gcd(int a, int b) { // Metode for å finne største fellesnevner
+    public static int gcd(int a, int b) { // Metode for a finne storste fellesnevner
                                           // (hjelpemetode til oppgave 6)
         if (b == 0) {
             return a;
@@ -356,6 +357,28 @@ public class Oblig1 {
 
         return result;
     }
+    // Oppgave 8
+    public static int[] indekssortering(int[] a) {
+        if(a.length == 0){
+            return a;
+        }
+        int [] x = a.clone(); // Kloner a
+        quickSort(x, 0, x.length); // Bruker quicksort til a sortere den klonede arrayet
+        int [] indeksarray = new int[a.length-1];
+        int indeks = 0;
+
+        for (int i = 0; i < x.length; i++) {
+            for(int j = 0; j<a.length; j++){
+                if(x[i] == a[j]){
+                    indeks = j;
+                }
+            }
+            indeksarray[i] = indeks;
+        }
+        return indeksarray;
+    }
+    // Oppgave 9
+
 
     public static int[] randPerm(int n)  // en effektiv versjon
     {
@@ -364,7 +387,7 @@ public class Oblig1 {
 
         Arrays.setAll(a, i -> i + 1);    // legger inn tallene 1, 2, . , n
 
-        for (int k = n - 1; k > 0; k--)  // løkke som går n - 1 ganger
+        for (int k = n - 1; k > 0; k--)  // lokke som gar n - 1 ganger
         {
             int i = r.nextInt(k+1);        // en tilfeldig tall fra 0 til k
             bytt(a,k,i);                   // bytter om
