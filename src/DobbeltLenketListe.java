@@ -267,7 +267,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         private int iteratorendringer;
 
         private DobbeltLenketListeIterator(){
-            throw new NotImplementedException();
+            denne = hode;     // p starter på den første i listen
+            fjernOK = false;  // blir sann når next() kalles
+            iteratorendringer = endringer;  // teller endringer
         }
 
         private DobbeltLenketListeIterator(int indeks){
@@ -276,7 +278,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public boolean hasNext(){
-            throw new NotImplementedException();
+            return denne != null;
         }
 
         @Override
@@ -286,7 +288,33 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public void remove(){
-            throw new NotImplementedException();
+            if(fjernOK == false) {
+                throw new IllegalStateException("ikke laget en iterator");
+            }
+            if(endringer != iteratorendringer) {
+                throw new ConcurrentModificationException("Endringer og iteratorendringer er ulike");
+            }
+
+            fjernOK = false;
+            if(antall == 1) {
+                hale = hode = null;
+            }
+            else if(denne == null) {
+                hale = hale.forrige;
+                hale.neste = null;
+            }
+            else if (denne.forrige == hode) {
+                hode = hode.neste;
+                hode.forrige = null;
+            }
+            else {
+                denne.forrige.neste = denne.neste;
+                denne.neste.forrige = denne.forrige;
+            }
+            antall--;
+            endringer++;
+            iteratorendringer++;
+
         }
 
     } // class DobbeltLenketListeIterator
