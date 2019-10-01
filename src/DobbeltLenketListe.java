@@ -41,6 +41,52 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int antall;            // antall noder i listen
     private int endringer;         // antall endringer i listen
 
+    // hjelpemetode
+    private Node<T> finnNode(int indeks) {
+        if(antall == 0) {
+            throw new IndexOutOfBoundsException("Listen er tom");
+        }
+        if(indeks < 0 || indeks >= antall) {
+            throw new IndexOutOfBoundsException("Feil i indeks");
+        }
+
+
+        Node<T> temp;
+
+        if(indeks < antall/2) {
+            temp = hode;
+
+            for(int i = 0; i < indeks; i++) {
+                temp = temp.neste;
+            }
+        }
+        else {
+            temp = hale;
+
+            for(int i = antall - 1; i > indeks; i--) {
+                temp = temp.forrige;
+            }
+        }
+
+        return temp;
+    }
+
+    //hjelpemetode
+    private static void fratilKontroll(int antall, int fra, int til)
+    {
+        if (fra < 0)                                  // fra er negativ
+            throw new IndexOutOfBoundsException
+                    ("fra(" + fra + ") er negativ!");
+
+        if (til > antall)                          // til er utenfor tabellen
+            throw new IndexOutOfBoundsException
+                    ("til(" + til + ") > antall(" + antall + ")");
+
+        if (fra > til)                                // fra er større enn til
+            throw new IllegalArgumentException
+                    ("fra(" + fra + ") > til(" + til + ") - illegalt intervall!");
+    }
+
     public DobbeltLenketListe() {
         //throw new NotImplementedException();
     }
@@ -64,8 +110,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                         antall++;
                     }
                     else {
-                        Node<T> node = new Node<>(a[i], hode, null);
-                        hode.neste = node;
+                        Node<T> node = new Node<>(a[i], hale, null);
+                        hale.neste = node;
                         hale = node;
                         endringer++;
                         antall++;
@@ -73,12 +119,25 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 }
             }
         }
-        System.out.println(antall);
-
     }
 
     public Liste<T> subliste(int fra, int til){
-        throw new NotImplementedException();
+        fratilKontroll(antall, fra, til);
+
+        DobbeltLenketListe<T> subliste = new DobbeltLenketListe<>();
+
+        if(fra == til) {
+            return subliste;
+        }
+
+        Node<T> peker = finnNode(fra);
+
+        for(int i = 0; i < til - fra; i++) {
+            subliste.leggInn(i, peker.verdi);
+            peker = peker.neste;
+        }
+
+        return subliste;
     }
 
     @Override
@@ -115,27 +174,88 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        throw new NotImplementedException();
+        Objects.requireNonNull(verdi, "Verdi kan ikke være null");
+
+        if(indeks < 0 || indeks > antall) {
+            throw new IndexOutOfBoundsException("Indeksen kan ikke være negativ eller større enn antall");
+        }
+
+        if(antall == 0) {
+            leggInn(verdi);
+        }
+        else if(indeks == antall) {
+            Node<T> node = new Node<>(verdi,hale,null);
+            hale.neste = node;
+            hale = node;
+            endringer++;
+            antall++;
+        }
+        else if(indeks == 0) {
+            Node<T> node = new Node<>(verdi,null,hode);
+            hode.forrige = node;
+            hode = node;
+            endringer++;
+            antall++;
+        }
+        else {
+            Node<T> r = finnNode(indeks);
+            Node<T> p = r.forrige;
+            Node<T> q = new Node<>(verdi,p,r);
+
+            p.neste = q;
+            r.forrige = q;
+
+            endringer++;
+            antall++;
+        }
+
     }
 
     @Override
     public boolean inneholder(T verdi) {
-        throw new NotImplementedException();
+        if(indeksTil(verdi) == -1) {
+            return false;
+        }
+
+        return true;
     }
 
     @Override
     public T hent(int indeks) {
-        throw new NotImplementedException();
+        return finnNode(indeks).verdi;
     }
 
     @Override
     public int indeksTil(T verdi) {
-        throw new NotImplementedException();
+        if(verdi == null) {
+            return -1;
+        }
+
+        Node temp = hode;
+
+        for(int i = 0; i < antall; i++) {
+            if(temp.verdi.equals(verdi)) {
+                return i;
+            }
+            temp = temp.neste;
+        }
+
+        return -1;
     }
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
-        throw new NotImplementedException();
+        if(nyverdi == null) {
+            throw new NullPointerException("Ny verdi kan ikke være null");
+        }
+
+        T temp = finnNode(indeks).verdi; //sjekker allerede indeksen i finnNode() og returnrerer null om indeksen ikke stemmer
+        if(temp != null) {
+            finnNode(indeks).verdi = nyverdi;
+            endringer++;
+        }
+
+        return temp;
     }
 
     @Override
@@ -144,33 +264,35 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             return false;
         }
 
-        Node<T> q = hode;
-        Node<T> p = null;
-
-        while(q != null) {
-            if(q.verdi.equals(verdi)) {
-                break;
-            }
-            p = q;
-            q = q.neste;
-        }
-
-        if(q == null) {
-            return false;
-        }
-        else if(q == hode) {
-            hode = hode.neste;
+        if(antall == 1) {
+            hode = hale = null;
         }
         else {
-            p.neste = q.neste;
-        }
 
-        if(q == hale) {
-            hale = p;
-        }
+            Node<T> q = hode;
+            Node<T> p = null;
 
-        q.verdi = null;
-        q.neste = null;
+            while (q != null) {
+                if (q.verdi.equals(verdi)) {
+                    break;
+                }
+                p = q;
+                q = q.neste;
+            }
+
+            if (q == null) {
+                return false;
+            } else if (q == hode) {
+                hode = hode.neste;
+                hode.forrige = null;
+            } else if (q == hale) {
+                hale = p;
+                hale.neste = null;
+            } else {
+                p.neste = q.neste;
+                q.neste.forrige = p;
+            }
+        }
 
         antall--;
         endringer++;
@@ -180,8 +302,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T fjern(int indeks) {
-        if(indeks < 0 || indeks > antall) {
-            return null;
+        if(antall == 0) {
+            throw new IndexOutOfBoundsException("Tom liste");
+        }
+        if(indeks < 0 || indeks >= antall) {
+            throw new IndexOutOfBoundsException("Feil i indeks");
         }
 
         T temp;
@@ -191,17 +316,24 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             hode = hode.neste;
             if(antall == 1) {
                 hale = null;
+                hode = null;
             }
         }
         else {
             Node<T> p = finnNode(indeks - 1);
             Node<T> q = p.neste;
+
             temp = q.verdi;
 
             if(q == hale) {
                 hale = p;
+                p.neste = null;
             }
-            p.neste = q.neste;
+            else {
+                Node<T> r = q.neste;
+                p.neste = r;
+                r.forrige = p;
+            }
         }
 
         antall--;
@@ -319,6 +451,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     } // class DobbeltLenketListeIterator
 
+    /*
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
 
         for (int i = 0; i < liste.antall();i++) {
@@ -331,6 +464,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             }
         }
     }
+     */
 
 } // class DobbeltLenketListe
 
