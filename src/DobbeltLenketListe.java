@@ -343,8 +343,29 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void nullstill() {
-        throw new NotImplementedException();
+        Node<T> neste = hode;
+        Node<T> fjernes;
+        while(neste != null) {
+            fjernes = neste;
+            neste = neste.neste;
+            fjernes.verdi = null;
+            fjernes.neste = fjernes.forrige = null;
+            antall--;
+            endringer++;
+        }
+
+        hode = hale = null;
     }
+
+    /*
+    Vi testet begge nullstill-metodene og så at 1. måte er raskest. Vi testet både med din testfil og manuell test
+
+    public void nullstill() {
+        while(antall > 0) {
+            fjern(0);
+        }
+    }
+     */
 
     @Override
     public String toString() {
