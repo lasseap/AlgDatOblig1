@@ -2,7 +2,7 @@
 
 // Lasse Apalnes Pedersen, s333761
 // Fredrik Arne Rikheim, s328084
-// Andreas Bjoerkas Grymyr, s333778
+// Andreas Bjoerkaas Grymyr, s333778
 
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
@@ -103,16 +103,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             antall = 0;
         }
         else {
-            for (int i = 0; i < a.length; i++) {
-                if (a[i] != null) {
-                    if(hode == null) {
-                        Node<T> node = new Node<>(a[i]);
+            for (T t : a) {
+                if (t != null) {
+                    if (hode == null) {
+                        Node<T> node = new Node<>(t);
                         hode = hale = node;
                         endringer++;
                         antall++;
-                    }
-                    else {
-                        Node<T> node = new Node<>(a[i], hale, null);
+                    } else {
+                        Node<T> node = new Node<>(t, hale, null);
                         hale.neste = node;
                         hale = node;
                         endringer++;
@@ -215,11 +214,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean inneholder(T verdi) {
-        if(indeksTil(verdi) == -1) {
-            return false;
-        }
-
-        return true;
+        return indeksTil(verdi) != -1;
     }
 
     @Override
@@ -457,7 +452,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public void remove(){
-            if(fjernOK == false) {
+            if(!fjernOK) {
                 throw new IllegalStateException("Ikke laget en iterator");
             }
             if(endringer != iteratorendringer) {
