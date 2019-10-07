@@ -20,7 +20,7 @@ Alle testene blir godkjent og testprogrammet gir "Process finished with exit cod
 
 # Warnings
 
-Fikk til slutt 23 warnings. Disse besto i hovedsak av private/public-problematikk. Disse valgte vi å ignorere
+Fikk til slutt 11 warnings. Disse besto i hovedsak av private/public-problematikk. Disse valgte vi å ignorere
 da vi ikke anså disse til å være verken relevante eller viktige for dette kurset, og vi vet ikke helt hvordan vi skulle håndtert disse
 warningsene. Det var også noen warnings som sa ifra at det ble kastet Exception hvis det kom null-argumenter. Dette har vi ignorert fordi det er funksjonalitet som kreves av oppgaven. 
 
