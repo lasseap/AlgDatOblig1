@@ -16,13 +16,21 @@ I oppgaven har vi hatt følgende arbeidsfordeling:
 
 # Resultat av testprogrammet
 
-Alle testene blir godkjent og testprogrammet gir "Process finished with exit code 0" i output.
+Alle testene blir godkjent og testprogrammet gir som regel "Process finished with exit code 0" i output. Enkelte ganger vi kjørte
+testprogrammet fikk vi utslag i Oppgave 6zg: "Ineffektiv kode! Har du kodet den ene fjern-metoden ved hjelp av den andre? Eller så er en 
+av fjern-metodene dine litt treg". Andre ganger fikk vi også utslag i Oppgave 2n: "Dette (" + tid + " ms) gikk altfor sakte! Har du 
+kodet toString slik det ble bedt om?" Som sagt så fikk vi utslag i disse testene kun noen få ganger vi kjører programmet, så vi tolket 
+dette som om testene var innenfor, men at koden nok kunne vært implementert bedre.
 
 # Warnings
 
 Fikk til slutt 11 warnings. Disse besto i hovedsak av private/public-problematikk. Disse valgte vi å ignorere
 da vi ikke anså disse til å være verken relevante eller viktige for dette kurset, og vi vet ikke helt hvordan vi skulle håndtert disse
-warningsene. Det var også noen warnings som sa ifra at det ble kastet Exception hvis det kom null-argumenter. Dette har vi ignorert fordi det er funksjonalitet som kreves av oppgaven. 
+warningsene. Det var også noen warnings som sa ifra at det ble kastet Exception hvis det kom null-argumenter. Dette har vi ignorert 
+fordi det er funksjonalitet som kreves av oppgaven. 
+
+
+
 
 
 
@@ -48,6 +56,6 @@ Alle testene blir godkjent og testprogrammet gir "Process finished with exit cod
 
 # Warnings
 
-Fikk til slutt 23 warnings. Disse besto i hovedsak av private/public-problematikk, og noe stringkonkatinering. Disse valgte vi å ignorere
-da vi ikke anså disse til å være verken relevante eller viktige for dette kurset, og vi vet ikke helt hvordan vi skulle håndtert disse
-warningsene. 
+Fikk til slutt 23 warnings. Disse besto i hovedsak av private/public-problematikk, og noe stringkonkatinering. Disse valgte vi å 
+ignorere da vi ikke anså disse til å være verken relevante eller viktige for dette kurset, og vi vet ikke helt hvordan vi skulle 
+håndtert disse warningsene. 
