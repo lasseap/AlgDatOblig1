@@ -20,11 +20,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class Oblig3Test {
 
     // OPPGAVE 1 ////////////////////////////////////////////////
+
     @org.junit.jupiter.api.Test
     void oppgave1() {
         int antallFeil = 0;
-        no.oslomet.cs.algdat.Oblig3.ObligSBinTre<Integer> tre =
-                new ObligSBinTre<>(Comparator.naturalOrder());
+        ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
 
         try {
             if (tre.antall() != 0) {
@@ -50,7 +50,7 @@ public class Oblig3Test {
         assertEquals(antallFeil, 0);
     }  // slutt på Oppgave 1
 
-
+    /*
     // OPPGAVE 2 ////////////////////////////////////////////////
     @org.junit.jupiter.api.Test
     void oppgave2() {
@@ -94,8 +94,7 @@ public class Oblig3Test {
     @org.junit.jupiter.api.Test
     void oppgave3() {
         int antallFeil = 0;
-        no.oslomet.cs.algdat.Oblig3.ObligSBinTre<Integer> tre =
-                new ObligSBinTre<>(Comparator.naturalOrder());
+        ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
 
         String s;
 
@@ -953,5 +952,7 @@ public class Oblig3Test {
         }
         assertEquals(antallFeil, 0);
     }  // slutt på Oppgave 10
+
+     */
 
 } // Oblig3Test
