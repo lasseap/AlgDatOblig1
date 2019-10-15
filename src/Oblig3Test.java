@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class Oblig3Test {
 
     // OPPGAVE 1 ////////////////////////////////////////////////
-    /*
+
     @org.junit.jupiter.api.Test
     void oppgave1() {
         int antallFeil = 0;
@@ -50,7 +50,7 @@ public class Oblig3Test {
         assertEquals(antallFeil, 0);
     }  // slutt på Oppgave 1
 
-
+    /*
     // OPPGAVE 2 ////////////////////////////////////////////////
     @org.junit.jupiter.api.Test
     void oppgave2() {
