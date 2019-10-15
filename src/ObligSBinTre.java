@@ -68,7 +68,65 @@ public class ObligSBinTre<T> implements Beholder<T>
   @Override
   public boolean fjern(T verdi)
   {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+    if (verdi == null) return false;  // treet har ingen nullverdier
+
+    Node<T> p = rot, q = null;   // q skal være forelder til p
+
+    while (p != null)            // leter etter verdi
+    {
+      int cmp = comp.compare(verdi,p.verdi);      // sammenligner
+      if (cmp < 0) { q = p; p = p.venstre; }      // går til venstre
+      else if (cmp > 0) { q = p; p = p.høyre; }   // går til høyre
+      else break;    // den søkte verdien ligger i p
+    }
+    if (p == null) return false;   // finner ikke verdi
+
+    if (p.venstre == null || p.høyre == null)  // Tilfelle 1) og 2)
+    {
+      Node<T> b;
+      if(p.venstre != null) {
+         b = p.venstre;
+      }
+      else {
+         b = p.høyre;
+      }
+
+      if (p == rot) {
+        rot = b;
+        b.forelder = null;
+      }
+      else if (p == q.venstre)  {
+        q.venstre = b;
+        b.forelder = q;
+      }
+      else {
+        q.høyre = b;
+        b.forelder = q;
+      }
+    }
+    else  // Tilfelle 3)
+    {
+      Node<T> s = p, r = p.høyre;   // finner neste i inorden
+      while (r.venstre != null)
+      {
+        s = r;    // s er forelder til r
+        r = r.venstre;
+      }
+
+      p.verdi = r.verdi;   // kopierer verdien i r til p
+
+      if (s != p) {
+        s.venstre = r.høyre;
+        s.venstre.forelder = s;
+      }
+      else {
+        s.høyre = r.høyre;
+        s.høyre.forelder = s;
+      }
+    }
+
+    antall--;   // det er nå én node mindre i treet
+    return true;
   }
   
   public int fjernAlle(T verdi)
