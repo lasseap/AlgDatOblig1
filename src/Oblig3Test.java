@@ -207,13 +207,13 @@ public class Oblig3Test {
         assertEquals(antallFeil, 0);
     }  // slutt på Oppgave 4
 
-
+*/
     // OPPGAVE 5 ////////////////////////////////////////////////
     @org.junit.jupiter.api.Test
     void oppgave5() {
         int antallFeil = 0;
 
-        no.oslomet.cs.algdat.Oblig3.ObligSBinTre<Integer> tre =
+        ObligSBinTre<Integer> tre =
                 new ObligSBinTre<>(Comparator.naturalOrder());
 
         String s;
@@ -396,7 +396,7 @@ public class Oblig3Test {
         assertEquals(antallFeil, 0);
     }  // slutt på Oppgave 5
 
-
+/*
     // OPPGAVE 6 ////////////////////////////////////////////////
     @org.junit.jupiter.api.Test
     void oppgave6() {

@@ -109,14 +109,24 @@ public class ObligSBinTre<T> implements Beholder<T>
     }
     if (p == null) return false;   // finner ikke verdi
 
-    if (p.venstre == null || p.høyre == null)  // Tilfelle 1) og 2)
+      if(p.venstre == null && p.høyre == null) {
+          if (p == rot) rot = null;                     // venstre i figuren
+          else if (p == q.venstre) q.venstre = null;    // midten i figuren
+          else q.høyre = null;                          // høyre i figuren
+      }
+
+
+
+      else if (p.venstre == null || p.høyre == null)  // Tilfelle 1) og 2)
     {
       Node<T> b;
       if(p.venstre != null) {
          b = p.venstre;
+         System.out.println(b.verdi);
       }
       else {
          b = p.høyre;
+          System.out.println(b.verdi);
       }
 
       if (p == rot) {
@@ -192,7 +202,14 @@ public class ObligSBinTre<T> implements Beholder<T>
   @Override
   public void nullstill()
   {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+    Node<T> node = nesteInorden(rot);
+    while (node != null) {
+      fjern(node.verdi);
+      node = nesteInorden(rot);
+    }
+    rot = null;
+    antall = 0;
+
   }
   
   private static <T> Node<T> nesteInorden(Node<T> p)
