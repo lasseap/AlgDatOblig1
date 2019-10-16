@@ -282,6 +282,9 @@ public class ObligSBinTre<T> implements Beholder<T>
   public String bladnodeverdier() {
     Node<T> p;
     p = rot;
+    if(p == null) {
+      return "[]";
+    }
     StringJoiner bladnoder = new StringJoiner(", ", "[", "]");
 
     boolean lete = true;
@@ -356,14 +359,15 @@ public class ObligSBinTre<T> implements Beholder<T>
     return new BladnodeIterator();
   }
   
-  private class BladnodeIterator implements Iterator<T>
-  {
+  private class BladnodeIterator implements Iterator<T> {
     private Node<T> p = rot, q = null;
     private boolean removeOK = false;
     private int iteratorendringer = endringer;
     
     private BladnodeIterator() {  // konstruktør
       p = finnNesteBladnode(p);
+      iteratorendringer = endringer;
+      removeOK = false;
     }
     
     @Override
@@ -373,9 +377,16 @@ public class ObligSBinTre<T> implements Beholder<T>
     }
     
     @Override
-    public T next()
-    {
-      throw new UnsupportedOperationException("Ikke kodet ennå!");
+    public T next() {
+      if(!hasNext()) {
+        throw new NoSuchElementException("Ingen flere bladnoder igjen");
+      }
+
+      removeOK = true;
+      T verdi = p.verdi;
+      p = finnNesteBladnode(nestePreorden(p));
+
+      return verdi;
     }
     
     @Override
