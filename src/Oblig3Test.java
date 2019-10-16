@@ -89,7 +89,7 @@ public class Oblig3Test {
         assertEquals(antallFeil, 0);
     }  // slutt på Oppgave 2
 
-
+    */
     // OPPGAVE 3 ////////////////////////////////////////////////
     @org.junit.jupiter.api.Test
     void oppgave3() {
@@ -164,7 +164,7 @@ public class Oblig3Test {
         assertEquals(antallFeil, 0);
     }  // slutt på Oppgave 3
 
-
+    /*
     // OPPGAVE 4 ////////////////////////////////////////////////
     @org.junit.jupiter.api.Test
     void oppgave4() {
