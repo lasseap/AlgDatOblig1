@@ -243,6 +243,30 @@ public class ObligSBinTre<T> implements Beholder<T>
     throw new UnsupportedOperationException("Ikke kodet ennå!");
   }
 
+  //Hjelpemetode for oppgave 8a)
+  private Node<T> nestePreorden(Node<T> p) {
+      if(p.venstre != null) {
+          return p.venstre;
+      }
+      else if(p.høyre != null) {
+          return p.høyre;
+      }
+
+      Node current = p;
+      Node forelder = p.forelder;
+
+      while(forelder != null && ((forelder.venstre == current && forelder.høyre == null) || (forelder.høyre == current))) {
+          current = current.forelder;
+          forelder = forelder.forelder;
+      }
+
+      if(forelder == null) {
+          return null;
+      }
+
+      return forelder.høyre;
+  }
+
   private Node<T> finnNesteBladnode(Node<T> p) {
     if(p == null) {
       return null;
@@ -251,7 +275,7 @@ public class ObligSBinTre<T> implements Beholder<T>
       return p;
     }
     else {
-      return finnNesteBladnode(nesteInorden(p));
+      return finnNesteBladnode(nestePreorden(p));
     }
   }
 
@@ -266,7 +290,7 @@ public class ObligSBinTre<T> implements Beholder<T>
     }
     else {
       while(lete) {
-        p = finnNesteBladnode(nesteInorden(p));
+        p = finnNesteBladnode(nestePreorden(p));
         if(p == null) {
           lete = false;
         }
@@ -338,9 +362,8 @@ public class ObligSBinTre<T> implements Beholder<T>
     private boolean removeOK = false;
     private int iteratorendringer = endringer;
     
-    private BladnodeIterator()  // konstruktør
-    {
-      throw new UnsupportedOperationException("Ikke kodet ennå!");
+    private BladnodeIterator() {  // konstruktør
+      p = finnNesteBladnode(p);
     }
     
     @Override
