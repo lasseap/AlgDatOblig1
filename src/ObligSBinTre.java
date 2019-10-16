@@ -70,7 +70,8 @@ public class ObligSBinTre<T> implements Beholder<T>
       q.høyre = p;                        // høyre barn til q
     }
 
-    antall++;                                // én verdi mer i treet
+    antall++;                             // én verdi mer i treet
+    endringer++;
     return true;
 
   }
@@ -164,6 +165,7 @@ public class ObligSBinTre<T> implements Beholder<T>
     }
 
     antall--;   // det er nå én node mindre i treet
+    endringer++;
     return true;
   }
   
@@ -240,7 +242,7 @@ public class ObligSBinTre<T> implements Beholder<T>
       p = nesteInorden(p);
       ut.add(p.verdi.toString());
     }
-    return toString();
+    return ut.toString();
   }
   
   public String omvendtString()
@@ -327,6 +329,10 @@ public class ObligSBinTre<T> implements Beholder<T>
   }
   
   public String postString() {
+    if(rot == null) {
+      return "[]";
+    }
+
     Stack<Node> stack = new Stack<>();
     String verdi;
     Node temp;
@@ -397,6 +403,9 @@ public class ObligSBinTre<T> implements Beholder<T>
     
     @Override
     public T next() {
+      if(endringer != iteratorendringer) {
+        throw new ConcurrentModificationException("Endringer og iteratorendringer er ulike");
+      }
       if(!hasNext()) {
         throw new NoSuchElementException("Ingen flere bladnoder igjen");
       }
@@ -413,6 +422,9 @@ public class ObligSBinTre<T> implements Beholder<T>
     public void remove() {
       if(!removeOK) {
         throw new IllegalStateException("Ikke laget en iterator");
+      }
+      if(endringer != iteratorendringer) {
+        throw new ConcurrentModificationException("Endringer og iteratorendringer er ulike");
       }
 
       removeOK = false;
