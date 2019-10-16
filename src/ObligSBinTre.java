@@ -115,8 +115,6 @@ public class ObligSBinTre<T> implements Beholder<T>
           else q.høyre = null;                          // høyre i figuren
       }
 
-
-
       else if (p.venstre == null || p.høyre == null)  // Tilfelle 1) og 2)
     {
       Node<T> b;
@@ -230,17 +228,180 @@ public class ObligSBinTre<T> implements Beholder<T>
   
   public String høyreGren()
   {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+    StringJoiner høyregren = new StringJoiner(", ", "[", "]");
+    Node<T> bladnode = rot;
+    boolean leter = false;
+    if(bladnode != null) {
+      leter = true;
+    }
+
+    while (leter) {
+      høyregren.add(bladnode.toString());
+      if(bladnode.høyre == null && bladnode.venstre == null) {
+        leter = false;
+      }
+      else if(bladnode.høyre != null) {
+        bladnode = bladnode.høyre;
+      }
+      else {
+        bladnode = bladnode.venstre;
+      }
+    }
+    return høyregren.toString();
+  }
+
+  private StringJoiner finnLensteGren(Node<T> node) {
+    StringJoiner lengsteGren = new StringJoiner(", ", "[", "]");
+    StringJoiner venstreGren;
+    StringJoiner høyreGren;
+    if(node.venstre != null && node.høyre != null ) { //sjekker om node har to barn
+      venstreGren = finnLensteGren(node.venstre);
+      høyreGren = finnLensteGren(node.høyre);
+      if(venstreGren.length() < høyreGren.length()) {
+        lengsteGren.merge(høyreGren);
+        }
+      else {
+        lengsteGren.merge(venstreGren);
+      }
+    }
+    else if (node.venstre != null) { // sjekker om noden har kun venstre barn
+      lengsteGren.merge(finnLensteGren(node.venstre));
+    }
+    else if (node.høyre != null) { // sjekker om noden har kun høyre barn
+      lengsteGren.merge(finnLensteGren(node.høyre));
+    }
+    else {
+      lengsteGren.add(node.toString());
+    }
+    return lengsteGren;
   }
   
   public String lengstGren()
   {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+    StringJoiner lengstegren = new StringJoiner(", ", "[", "]");
+
+    if(rot == null) {// returnerer [] hvis rot er null
+      return lengstegren.toString();
+    }
+    if(antall == 1) { // returner rot hvis det bare er en node i treet
+      lengstegren.add(rot.toString());
+      return lengstegren.toString();
+    }
+    if(antall == 2){ // sjekker om rot bare har en node
+      lengstegren.add(rot.toString());
+      if(rot.venstre != null) { //legger til venstre
+        lengstegren.add(rot.venstre.toString());
+      }
+      else { // legger til høyre
+        lengstegren.add(rot.høyre.toString());
+      }
+      return lengstegren.toString();
+    }
+    lengstegren.add(rot.toString());// legger til rot og finner lengstegren til høyre og venstre
+    StringJoiner venstreGren = finnLensteGren(rot.venstre);
+    StringJoiner høyreGren = finnLensteGren(rot.høyre);
+
+    if (venstreGren.length() < høyreGren.length()) { // sjekker hvilken gren som er lengst
+      lengstegren.merge(høyreGren);
+    }
+    else {
+      lengstegren.merge(venstreGren);
+    }
+    return lengstegren.toString();
   }
+/*
+  private String[] finnGrener(Node<T> node,String[] grener ) {
+    if(node.venstre != null && node.høyre != null) {
+      String[] venstre = finnGrener(node.venstre);
+      String[] høyre = finnGrener(node.høyre);
+      int antallGrener =venstre.length + høyre.length;
+      grener = new String[antallGrener];
+      System.arraycopy(venstre,0,grener,0,venstre.length);
+      System.arraycopy(høyre,0,grener,venstre.length,høyre.length);
+    }
+    else if (node.venstre != null) {
+      return finnGrener(node.venstre);
+    }
+    else if (node.høyre != null) {
+      return finnGrener(node.høyre);
+    }
+    else {
+      String[] grenSlutt = new String[grener.length+1];
+      System.arraycopy(grener,0,grenSlutt,0,grener.length);
+      grenSlutt[grenSlutt.length-1] = "["
+      return grener;
+    }
+  }*/
   
-  public String[] grener()
-  {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+  public String[] grener() {
+
+    if(rot == null) {
+      return new String[0];
+    }
+    String sisteGren = høyreGren();
+    if(antall < 3) {
+      String[] grener = {sisteGren};
+      return grener;
+    }
+    StringJoiner gren = new StringJoiner(", ", "[", "]");
+    gren.add(rot.toString());
+    ArrayList<Node<T>> sjekkedeNoder = new ArrayList<>();
+    ArrayList<String> funnetGrener = new ArrayList<>();
+    String[] grener;
+    Node<T> node = rot.venstre;
+    Node<T> nesteinorden = null;
+    while (nesteinorden == null) { //finner første gren
+      gren.add(node.toString());
+      if(node.venstre != null) {
+        node = node.venstre;
+      }
+      else if (node.høyre != null) {
+        node = node.høyre;
+      }
+      else {
+        nesteinorden = nesteInorden(node);
+        sjekkedeNoder.add(node);
+        node = rot;
+        funnetGrener.add(gren.toString());
+        gren = new StringJoiner(", ", "[", "]");
+      }
+    }
+    while (funnetGrener.contains(sisteGren)) { // finner resten av grenene til de er like den høyre grenen
+      gren.add(node.toString());
+      if (node == nesteinorden) { //Sjekker om man er på neste node som skal sjekkes
+        if (node.venstre == null && node.høyre == null) {
+          nesteinorden = nesteInorden(node);
+          sjekkedeNoder.add(node);
+          node = rot;
+          funnetGrener.add(gren.toString());
+          gren = new StringJoiner(", ", "[", "]");
+        } else {
+          if (node.høyre == null) { // ikke en bladnode, starter gren på nytt
+            nesteinorden = nesteInorden(nesteinorden);
+            sjekkedeNoder.add(node);
+            node = nesteinorden;
+            gren = new StringJoiner(", ", "[", "]");
+          } else {
+            sjekkedeNoder.add(node);
+            node = node.høyre;
+            nesteinorden = nesteInorden(nesteinorden);
+          }
+        }
+      }
+      else { //ikke i neste inorden node
+        if(sjekkedeNoder.contains(node)){
+          node = node.høyre;
+        }
+        else {//implementer vanlig sjekk av node, venstre hvis den har venstre, høyre hvis den har den 
+
+        }
+      }
+    }
+    grener = new String[funnetGrener.size()];
+    for (int i = 0;i< funnetGrener.size();i++) {
+      grener[i] = funnetGrener.get(i);
+    }
+    return grener;
   }
 
   private Node<T> finnNesteBladnode(Node<T> p) {
