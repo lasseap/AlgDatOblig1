@@ -279,9 +279,51 @@ public class ObligSBinTre<T> implements Beholder<T>
     return bladnoder.toString();
   }
   
-  public String postString()
-  {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+  public String postString() {
+    Stack<Node> stack = new Stack<>();
+    String verdi;
+    Node temp;
+    Node forrige = null;
+    StringJoiner postOrden = new StringJoiner(", ", "[", "]");
+
+    stack.push(rot);
+
+    while(!stack.isEmpty()) {
+      Node current = stack.peek();
+
+      if(forrige == null || forrige.venstre == current || forrige.høyre == current ) {
+        if(current.venstre != null) {
+          stack.push(current.venstre);
+        }
+        else if(current.høyre!= null) {
+          stack.push(current.høyre);
+        }
+        else {
+          temp = stack.pop();
+          verdi = temp.verdi.toString();
+          postOrden.add(verdi);
+        }
+      }
+      else if(current.venstre == forrige) {
+        if(current.høyre != null) {
+          stack.push(current.høyre);
+        }
+        else {
+          temp = stack.pop();
+          verdi = temp.verdi.toString();
+          postOrden.add(verdi);
+        }
+      }
+      else if(current.høyre == forrige) {
+        temp = stack.pop();
+        verdi = temp.verdi.toString();
+        postOrden.add(verdi);
+      }
+
+    forrige = current;
+    }
+
+    return postOrden.toString();
   }
   
   @Override
