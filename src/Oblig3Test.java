@@ -89,7 +89,7 @@ public class Oblig3Test {
         assertEquals(antallFeil, 0);
     }  // slutt på Oppgave 2
 
-
+    */
     // OPPGAVE 3 ////////////////////////////////////////////////
     @org.junit.jupiter.api.Test
     void oppgave3() {
@@ -164,7 +164,7 @@ public class Oblig3Test {
         assertEquals(antallFeil, 0);
     }  // slutt på Oppgave 3
 
-
+    /*
     // OPPGAVE 4 ////////////////////////////////////////////////
     @org.junit.jupiter.api.Test
     void oppgave4() {
@@ -562,14 +562,13 @@ public class Oblig3Test {
         assertEquals(antallFeil, 0);
     }  // slutt på Oppgave 7
 
-
+    */
     // OPPGAVE 8 ////////////////////////////////////////////////
     @org.junit.jupiter.api.Test
     void oppgave8() {
         int antallFeil = 0;
 
-        no.oslomet.cs.algdat.Oblig3.ObligSBinTre<Integer> tre =
-                new ObligSBinTre<>(Comparator.naturalOrder());
+        ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
 
         String s = tre.bladnodeverdier();
 
@@ -680,8 +679,7 @@ public class Oblig3Test {
     void oppgave9() {
         int antallFeil = 0;
 
-        no.oslomet.cs.algdat.Oblig3.ObligSBinTre<Integer> tre =
-                new ObligSBinTre<>(Comparator.naturalOrder());
+        ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
 
         Iterator<Integer> i = tre.iterator();
 
@@ -818,8 +816,7 @@ public class Oblig3Test {
     void oppgave10() {
         int antallFeil = 0;
 
-        no.oslomet.cs.algdat.Oblig3.ObligSBinTre<Integer> tre =
-                new ObligSBinTre<>(Comparator.naturalOrder());
+        ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
 
         Iterator<Integer> i = tre.iterator();
 
@@ -953,6 +950,5 @@ public class Oblig3Test {
         assertEquals(antallFeil, 0);
     }  // slutt på Oppgave 10
 
-     */
 
 } // Oblig3Test

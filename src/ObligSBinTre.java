@@ -70,7 +70,8 @@ public class ObligSBinTre<T> implements Beholder<T>
       q.høyre = p;                        // høyre barn til q
     }
 
-    antall++;                                // én verdi mer i treet
+    antall++;                             // én verdi mer i treet
+    endringer++;
     return true;
 
   }
@@ -162,6 +163,7 @@ public class ObligSBinTre<T> implements Beholder<T>
     }
 
     antall--;   // det er nå én node mindre i treet
+    endringer++;
     return true;
   }
   
@@ -210,17 +212,45 @@ public class ObligSBinTre<T> implements Beholder<T>
 
   }
   
-  private static <T> Node<T> nesteInorden(Node<T> p)
-  {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+  private static <T> Node<T> nesteInorden(Node<T> p) {
+    if(p.høyre != null) {
+      while(p.venstre != null) {
+        p = p.venstre;
+      }
+      return p;
+    }
+    else {
+      Node<T> q = p.forelder;
+      while(q != null && p == q.høyre) {
+        if(q.forelder == null && q.høyre == p) {
+          return null;
+        }
+        else {
+          p = q;
+          q = q.forelder;
+        }
+      }
+      return q;
+    }
   }
-  
+
   @Override
   public String toString()
   {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+
+    StringJoiner ut = new StringJoiner(", ", "[", "]");
+    if(tom()) {
+      return "[]";
+    }
+    Node<T> p = rot;
+    while (p != null){
+      ut.add(p.verdi.toString());
+      p = nesteInorden(p);
+    }
+    return ut.toString();
+
   }
-  
+
   public String omvendtString()
   {
     throw new UnsupportedOperationException("Ikke kodet ennå!");
@@ -404,6 +434,30 @@ public class ObligSBinTre<T> implements Beholder<T>
     return grener;
   }
 
+  //Hjelpemetode for oppgave 8a)
+  private Node<T> nestePreorden(Node<T> p) {
+      if(p.venstre != null) {
+          return p.venstre;
+      }
+      else if(p.høyre != null) {
+          return p.høyre;
+      }
+
+      Node current = p;
+      Node forelder = p.forelder;
+
+      while(forelder != null && ((forelder.venstre == current && forelder.høyre == null) || (forelder.høyre == current))) {
+          current = current.forelder;
+          forelder = forelder.forelder;
+      }
+
+      if(forelder == null) {
+          return null;
+      }
+
+      return forelder.høyre;
+  }
+
   private Node<T> finnNesteBladnode(Node<T> p) {
     if(p == null) {
       return null;
@@ -412,13 +466,16 @@ public class ObligSBinTre<T> implements Beholder<T>
       return p;
     }
     else {
-      return finnNesteBladnode(nesteInorden(p));
+      return finnNesteBladnode(nestePreorden(p));
     }
   }
 
   public String bladnodeverdier() {
     Node<T> p;
     p = rot;
+    if(p == null) {
+      return "[]";
+    }
     StringJoiner bladnoder = new StringJoiner(", ", "[", "]");
 
     boolean lete = true;
@@ -427,7 +484,7 @@ public class ObligSBinTre<T> implements Beholder<T>
     }
     else {
       while(lete) {
-        p = finnNesteBladnode(nesteInorden(p));
+        p = finnNesteBladnode(nestePreorden(p));
         if(p == null) {
           lete = false;
         }
@@ -440,9 +497,55 @@ public class ObligSBinTre<T> implements Beholder<T>
     return bladnoder.toString();
   }
   
-  public String postString()
-  {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+  public String postString() {
+    if(rot == null) {
+      return "[]";
+    }
+
+    Stack<Node> stack = new Stack<>();
+    String verdi;
+    Node temp;
+    Node forrige = null;
+    StringJoiner postOrden = new StringJoiner(", ", "[", "]");
+
+    stack.push(rot);
+
+    while(!stack.isEmpty()) {
+      Node current = stack.peek();
+
+      if(forrige == null || forrige.venstre == current || forrige.høyre == current ) {
+        if(current.venstre != null) {
+          stack.push(current.venstre);
+        }
+        else if(current.høyre!= null) {
+          stack.push(current.høyre);
+        }
+        else {
+          temp = stack.pop();
+          verdi = temp.verdi.toString();
+          postOrden.add(verdi);
+        }
+      }
+      else if(current.venstre == forrige) {
+        if(current.høyre != null) {
+          stack.push(current.høyre);
+        }
+        else {
+          temp = stack.pop();
+          verdi = temp.verdi.toString();
+          postOrden.add(verdi);
+        }
+      }
+      else if(current.høyre == forrige) {
+        temp = stack.pop();
+        verdi = temp.verdi.toString();
+        postOrden.add(verdi);
+      }
+
+    forrige = current;
+    }
+
+    return postOrden.toString();
   }
   
   @Override
@@ -451,34 +554,60 @@ public class ObligSBinTre<T> implements Beholder<T>
     return new BladnodeIterator();
   }
   
-  private class BladnodeIterator implements Iterator<T>
-  {
+  private class BladnodeIterator implements Iterator<T> {
     private Node<T> p = rot, q = null;
     private boolean removeOK = false;
     private int iteratorendringer = endringer;
     
-    private BladnodeIterator()  // konstruktør
-    {
-      throw new UnsupportedOperationException("Ikke kodet ennå!");
+    private BladnodeIterator() {  // konstruktør
+      p = finnNesteBladnode(p);
+      iteratorendringer = endringer;
+      removeOK = false;
     }
     
     @Override
-    public boolean hasNext()
-    {
+    public boolean hasNext() {
       return p != null;  // Denne skal ikke endres!
     }
     
     @Override
-    public T next()
-    {
-      throw new UnsupportedOperationException("Ikke kodet ennå!");
+    public T next() {
+      if(endringer != iteratorendringer) {
+        throw new ConcurrentModificationException("Endringer og iteratorendringer er ulike");
+      }
+      if(!hasNext()) {
+        throw new NoSuchElementException("Ingen flere bladnoder igjen");
+      }
+
+      removeOK = true;
+      T verdi = p.verdi;
+      q = p;
+      p = finnNesteBladnode(nestePreorden(p));
+
+      return verdi;
     }
     
     @Override
-    public void remove()
-    {
-      throw new UnsupportedOperationException("Ikke kodet ennå!");
+    public void remove() {
+      if(!removeOK) {
+        throw new IllegalStateException("Ikke laget en iterator");
+      }
+      if(endringer != iteratorendringer) {
+        throw new ConcurrentModificationException("Endringer og iteratorendringer er ulike");
+      }
+
+      removeOK = false;
+      if(p.forelder.venstre == p) {
+        p.forelder.venstre = null;
+      }
+      else if(p.forelder.høyre == p) {
+        p.forelder.høyre = null;
+      }
+
+      endringer++;
+      iteratorendringer++;
     }
+
 
   } // BladnodeIterator
 
