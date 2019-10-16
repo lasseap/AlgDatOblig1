@@ -212,8 +212,7 @@ public class ObligSBinTre<T> implements Beholder<T>
 
   }
   
-  private static <T> Node<T> nesteInorden(Node<T> p)
-  {
+  private static <T> Node<T> nesteInorden(Node<T> p) {
     if(p.høyre != null) {
       while (p.venstre != null) p = p.venstre;
       {
@@ -382,8 +381,7 @@ public class ObligSBinTre<T> implements Beholder<T>
     }
     
     @Override
-    public boolean hasNext()
-    {
+    public boolean hasNext() {
       return p != null;  // Denne skal ikke endres!
     }
     
@@ -395,16 +393,30 @@ public class ObligSBinTre<T> implements Beholder<T>
 
       removeOK = true;
       T verdi = p.verdi;
+      q = p;
       p = finnNesteBladnode(nestePreorden(p));
 
       return verdi;
     }
     
     @Override
-    public void remove()
-    {
-      throw new UnsupportedOperationException("Ikke kodet ennå!");
+    public void remove() {
+      if(!removeOK) {
+        throw new IllegalStateException("Ikke laget en iterator");
+      }
+
+      removeOK = false;
+      if(p.forelder.venstre == p) {
+        p.forelder.venstre = null;
+      }
+      else if(p.forelder.høyre == p) {
+        p.forelder.høyre = null;
+      }
+
+      endringer++;
+      iteratorendringer++;
     }
+
 
   } // BladnodeIterator
 
