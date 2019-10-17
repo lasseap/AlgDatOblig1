@@ -422,8 +422,13 @@ public class ObligSBinTre<T> implements Beholder<T>
         if(sjekkedeNoder.contains(node)){
           node = node.høyre;
         }
-        else {//implementer vanlig sjekk av node, venstre hvis den har venstre, høyre hvis den har den 
-
+        else {//kan ikke vaere bladnode, allerede sjekket
+          if(node.venstre != null) {
+            node = node.venstre;
+          }
+          else {
+            node = node.høyre;
+          }
         }
       }
     }
