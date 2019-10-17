@@ -214,9 +214,11 @@ public class ObligSBinTre<T> implements Beholder<T>
   
   private static <T> Node<T> nesteInorden(Node<T> p) {
     if(p.høyre != null) {
+      p = p.høyre;
       while(p.venstre != null) {
         p = p.venstre;
       }
+
       return p;
     }
     else {
@@ -243,6 +245,10 @@ public class ObligSBinTre<T> implements Beholder<T>
       return "[]";
     }
     Node<T> p = rot;
+    while(p.venstre != null) {
+      p = p.venstre;
+    }
+
     while (p != null){
       ut.add(p.verdi.toString());
       p = nesteInorden(p);
