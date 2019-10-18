@@ -163,14 +163,13 @@ public class Oblig3Test {
         assertEquals(antallFeil, 0);
     }  // slutt på Oppgave 3
 
-    /*
+
     // OPPGAVE 4 ////////////////////////////////////////////////
     @org.junit.jupiter.api.Test
     void oppgave4() {
         int antallFeil = 0;
 
-        no.oslomet.cs.algdat.Oblig3.ObligSBinTre<Integer> tre =
-                new ObligSBinTre<>(Comparator.naturalOrder());
+        ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
 
         String s;
 
@@ -206,7 +205,7 @@ public class Oblig3Test {
         assertEquals(antallFeil, 0);
     }  // slutt på Oppgave 4
 
-*/
+
     // OPPGAVE 5 ////////////////////////////////////////////////
     @org.junit.jupiter.api.Test
     void oppgave5() {
@@ -395,14 +394,13 @@ public class Oblig3Test {
         assertEquals(antallFeil, 0);
     }  // slutt på Oppgave 5
 
-/*
+
     // OPPGAVE 6 ////////////////////////////////////////////////
     @org.junit.jupiter.api.Test
     void oppgave6() {
         int antallFeil = 0;
 
-        no.oslomet.cs.algdat.Oblig3.ObligSBinTre<Integer> tre =
-                new ObligSBinTre<>(Comparator.naturalOrder());
+        ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
 
         String s = null;
 
@@ -461,8 +459,7 @@ public class Oblig3Test {
         }
 
         // Et nytt tre
-        no.oslomet.cs.algdat.Oblig3.ObligSBinTre<String> tre2 =
-                new ObligSBinTre<>(Comparator.naturalOrder());
+        ObligSBinTre<String> tre2 = new ObligSBinTre<>(Comparator.naturalOrder());
 
         try {
             s = tre2.lengstGren();
@@ -507,8 +504,7 @@ public class Oblig3Test {
     void oppgave7() {
         int antallFeil = 0;
 
-        no.oslomet.cs.algdat.Oblig3.ObligSBinTre<Integer> tre =
-                new ObligSBinTre<>(Comparator.naturalOrder());
+        ObligSBinTre<Integer> tre = new ObligSBinTre<>(Comparator.naturalOrder());
 
         String[] s = tre.grener();
 
@@ -561,7 +557,7 @@ public class Oblig3Test {
         assertEquals(antallFeil, 0);
     }  // slutt på Oppgave 7
 
-    */
+
     // OPPGAVE 8 ////////////////////////////////////////////////
     @org.junit.jupiter.api.Test
     void oppgave8() {

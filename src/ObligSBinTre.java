@@ -108,24 +108,22 @@ public class ObligSBinTre<T> implements Beholder<T>
       else if (cmp > 0) { q = p; p = p.høyre; }   // går til høyre
       else break;    // den søkte verdien ligger i p
     }
-    if (p == null) return false;   // finner ikke verdi
+    if (p == null) {
+      return false;   // finner ikke verdi
+    }
 
-      if(p.venstre == null && p.høyre == null) {
-          if (p == rot) rot = null;                     // venstre i figuren
-          else if (p == q.venstre) q.venstre = null;    // midten i figuren
-          else q.høyre = null;                          // høyre i figuren
-      }
-
-      else if (p.venstre == null || p.høyre == null)  // Tilfelle 1) og 2)
-    {
+    if(p.venstre == null && p.høyre == null) {
+        if (p == rot) rot = null;                     // venstre i figuren
+        else if (p == q.venstre) q.venstre = null;    // midten i figuren
+        else q.høyre = null;                          // høyre i figuren
+    }
+    else if (p.venstre == null || p.høyre == null) {  // Tilfelle 1) og 2)
       Node<T> b;
       if(p.venstre != null) {
          b = p.venstre;
-         System.out.println(b.verdi);
       }
       else {
          b = p.høyre;
-          System.out.println(b.verdi);
       }
 
       if (p == rot) {
@@ -144,8 +142,7 @@ public class ObligSBinTre<T> implements Beholder<T>
     else  // Tilfelle 3)
     {
       Node<T> s = p, r = p.høyre;   // finner neste i inorden
-      while (r.venstre != null)
-      {
+      while (r.venstre != null) {
         s = r;    // s er forelder til r
         r = r.venstre;
       }
@@ -154,11 +151,15 @@ public class ObligSBinTre<T> implements Beholder<T>
 
       if (s != p) {
         s.venstre = r.høyre;
-        s.venstre.forelder = s;
+        if(r.høyre != null) {
+          r.høyre.forelder = s;
+        }
       }
       else {
         s.høyre = r.høyre;
-        s.høyre.forelder = s;
+        if(r.venstre != null) {
+          r.venstre.forelder = s;
+        }
       }
     }
 
@@ -212,8 +213,11 @@ public class ObligSBinTre<T> implements Beholder<T>
   }
   
   @Override
-  public void nullstill()
-  {
+  public void nullstill() {
+    if(tom()) {
+      return;
+    }
+
     Node<T> node = nesteInorden(rot);
     while (node != null) {
       fjern(node.verdi);
@@ -221,7 +225,6 @@ public class ObligSBinTre<T> implements Beholder<T>
     }
     rot = null;
     antall = 0;
-
   }
   
   private static <T> Node<T> nesteInorden(Node<T> p) {
@@ -249,12 +252,11 @@ public class ObligSBinTre<T> implements Beholder<T>
   }
 
   @Override
-  public String toString()
-  {
-
+  public String toString() {
     StringJoiner ut = new StringJoiner(", ", "[", "]");
+
     if(tom()) {
-      return "[]";
+      return ut.toString();
     }
     Node<T> p = rot;
     while(p.venstre != null) {
@@ -262,56 +264,40 @@ public class ObligSBinTre<T> implements Beholder<T>
     }
 
     while (p != null){
-      ut.add(p.verdi.toString());
+      ut.add(p.toString());
       p = nesteInorden(p);
     }
     return ut.toString();
 
   }
 
-  public String omvendtString()
-  {
-    Stack<Node> stack = new Stack<>();
-    String verdi;
-    Node temp;
-    Node forrige = null;
+  public String omvendtString() {
     StringJoiner ut = new StringJoiner(", ", "[", "]");
 
-    stack.push(rot);
+    if(tom()) {
+      return ut.toString();
+    }
 
-    while(!stack.isEmpty()) {
-      Node current = stack.peek();
+    Stack<Node> stack = new Stack<>();
+    Node<T> p = rot;
+    for( ; p.høyre != null; p = p.høyre) {
+      stack.push(p);
+    }
 
-      if(forrige == null || forrige.venstre == current || forrige.høyre == current ) {
-        if(current.venstre != null) {
-          stack.push(current.venstre);
-        }
-        else if(current.høyre!= null) {
-          stack.push(current.høyre);
-        }
-        else {
-          temp = stack.pop();
-          verdi = temp.verdi.toString();
-          ut.add(verdi);
+    while(true) {
+      ut.add(p.toString());
+
+      if(p.venstre != null) {
+        for(p = p.venstre; p.høyre != null; p = p.høyre) {
+          stack.push(p);
         }
       }
-      else if(current.venstre == forrige) {
-        if(current.høyre != null) {
-          stack.push(current.høyre);
-        }
-        else {
-          temp = stack.pop();
-          verdi = temp.verdi.toString();
-          ut.add(verdi);
-        }
+      else if(!stack.isEmpty()) {
+        p = stack.pop();
       }
-      else if(current.høyre == forrige) {
-        temp = stack.pop();
-        verdi = temp.verdi.toString();
-        ut.add(verdi);
+      else {
+        break;
       }
-
-      forrige = current;
     }
 
     return ut.toString();
@@ -346,6 +332,7 @@ public class ObligSBinTre<T> implements Beholder<T>
     StringJoiner venstreGren;
     StringJoiner høyreGren;
     if(node.venstre != null && node.høyre != null ) { //sjekker om node har to barn
+      lengsteGren.add(node.toString());
       venstreGren = finnLensteGren(node.venstre);
       høyreGren = finnLensteGren(node.høyre);
       if(venstreGren.length() < høyreGren.length()) {
@@ -356,9 +343,11 @@ public class ObligSBinTre<T> implements Beholder<T>
       }
     }
     else if (node.venstre != null) { // sjekker om noden har kun venstre barn
+      lengsteGren.add(node.toString());
       lengsteGren.merge(finnLensteGren(node.venstre));
     }
     else if (node.høyre != null) { // sjekker om noden har kun høyre barn
+      lengsteGren.add(node.toString());
       lengsteGren.merge(finnLensteGren(node.høyre));
     }
     else {
@@ -367,8 +356,7 @@ public class ObligSBinTre<T> implements Beholder<T>
     return lengsteGren;
   }
   
-  public String lengstGren()
-  {
+  public String lengstGren() {
     StringJoiner lengstegren = new StringJoiner(", ", "[", "]");
 
     if(rot == null) {// returnerer [] hvis rot er null
@@ -389,10 +377,24 @@ public class ObligSBinTre<T> implements Beholder<T>
       return lengstegren.toString();
     }
     lengstegren.add(rot.toString());// legger til rot og finner lengstegren til høyre og venstre
-    StringJoiner venstreGren = finnLensteGren(rot.venstre);
-    StringJoiner høyreGren = finnLensteGren(rot.høyre);
+    StringJoiner venstreGren = new StringJoiner(", ", "[", "]");
+    StringJoiner høyreGren = new StringJoiner(", ", "[", "]");
+    String[] venstreGrenArray = new String[0];
+    String[] høyreGrenArray = new String[0];
+    if(rot.venstre != null) {
+      venstreGren = finnLensteGren(rot.venstre);
+      String[] tempArray = venstreGren.toString().split(",");
+      venstreGrenArray = new String[tempArray.length];
+      venstreGrenArray = tempArray;
+    }
+    if(rot.høyre != null) {
+      høyreGren = finnLensteGren(rot.høyre);
+      String[] tempArray = høyreGren.toString().split(",");
+      høyreGrenArray = new String[tempArray.length];
+      høyreGrenArray = tempArray;
+    }
 
-    if (venstreGren.length() < høyreGren.length()) { // sjekker hvilken gren som er lengst
+    if (venstreGrenArray.length < høyreGrenArray.length) { // sjekker hvilken gren som er lengst
       lengstegren.merge(høyreGren);
     }
     else {
@@ -546,7 +548,7 @@ public class ObligSBinTre<T> implements Beholder<T>
 
     boolean lete = true;
     if(p.venstre == null && p.høyre == null) {
-      bladnoder.add(p.verdi.toString());
+      bladnoder.add(p.toString());
     }
     else {
       while(lete) {
@@ -555,7 +557,7 @@ public class ObligSBinTre<T> implements Beholder<T>
           lete = false;
         }
         else {
-          bladnoder.add(p.verdi.toString());
+          bladnoder.add(p.toString());
         }
       }
     }
@@ -588,7 +590,7 @@ public class ObligSBinTre<T> implements Beholder<T>
         }
         else {
           temp = stack.pop();
-          verdi = temp.verdi.toString();
+          verdi = temp.toString();
           postOrden.add(verdi);
         }
       }
@@ -598,13 +600,13 @@ public class ObligSBinTre<T> implements Beholder<T>
         }
         else {
           temp = stack.pop();
-          verdi = temp.verdi.toString();
+          verdi = temp.toString();
           postOrden.add(verdi);
         }
       }
       else if(current.høyre == forrige) {
         temp = stack.pop();
-        verdi = temp.verdi.toString();
+        verdi = temp.toString();
         postOrden.add(verdi);
       }
 
