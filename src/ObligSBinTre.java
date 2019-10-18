@@ -384,13 +384,11 @@ public class ObligSBinTre<T> implements Beholder<T>
     if(rot.venstre != null) {
       venstreGren = finnLensteGren(rot.venstre);
       String[] tempArray = venstreGren.toString().split(",");
-      venstreGrenArray = new String[tempArray.length];
       venstreGrenArray = tempArray;
     }
     if(rot.høyre != null) {
       høyreGren = finnLensteGren(rot.høyre);
       String[] tempArray = høyreGren.toString().split(",");
-      høyreGrenArray = new String[tempArray.length];
       høyreGrenArray = tempArray;
     }
 
@@ -459,7 +457,7 @@ public class ObligSBinTre<T> implements Beholder<T>
         gren = new StringJoiner(", ", "[", "]");
       }
     }
-    while (funnetGrener.contains(sisteGren)) { // finner resten av grenene til de er like den høyre grenen
+    while (!funnetGrener.contains(sisteGren)) { // finner resten av grenene til de er like den høyre grenen
       gren.add(node.toString());
       if (node == nesteinorden) { //Sjekker om man er på neste node som skal sjekkes
         if (node.venstre == null && node.høyre == null) {
@@ -472,7 +470,7 @@ public class ObligSBinTre<T> implements Beholder<T>
           if (node.høyre == null) { // ikke en bladnode, starter gren på nytt
             nesteinorden = nesteInorden(nesteinorden);
             sjekkedeNoder.add(node);
-            node = nesteinorden;
+            node = rot;
             gren = new StringJoiner(", ", "[", "]");
           } else {
             sjekkedeNoder.add(node);
@@ -665,13 +663,27 @@ public class ObligSBinTre<T> implements Beholder<T>
       }
 
       removeOK = false;
-      if(p.forelder.venstre == p) {
+      if(q.forelder == null) {
+        q = null;
+      }
+      else if(q.forelder.venstre != null && q.forelder.høyre != null) {
+        if (q.forelder.venstre == q) {
+          q.forelder.venstre = null;
+        } else if (q.forelder.høyre == q) {
+          q.forelder.høyre = null;
+        }
+      }
+      else if(q.forelder.venstre != null) {
         q.forelder.venstre = null;
       }
-      else if(p.forelder.høyre == p) {
+      else if(q.forelder.høyre != null) {
         q.forelder.høyre = null;
       }
+      else {
+        q = null;
+      }
 
+      antall--;
       endringer++;
       iteratorendringer++;
     }
