@@ -188,9 +188,21 @@ public class ObligSBinTre<T> implements Beholder<T>
     return antall;
   }
   
-  public int antall(T verdi)
-  {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+  public int antall(T verdi) {
+    int antall = 0;
+    Node<T> p = rot;
+    while(p.venstre != null) {
+      p = p.venstre;
+    }
+
+    while(p != null) {
+      if(p.verdi.equals(verdi)) {
+        antall++;
+      }
+      p = nesteInorden(p);
+    }
+
+    return antall;
   }
   
   @Override
@@ -609,10 +621,10 @@ public class ObligSBinTre<T> implements Beholder<T>
 
       removeOK = false;
       if(p.forelder.venstre == p) {
-        p.forelder.venstre = null;
+        q.forelder.venstre = null;
       }
       else if(p.forelder.høyre == p) {
-        p.forelder.høyre = null;
+        q.forelder.høyre = null;
       }
 
       endringer++;
