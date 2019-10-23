@@ -1,4 +1,3 @@
-// Lasse Apalnes Pedersem, s333761
 // Fredrik Arne Rikheim, s328084
 // Andreas Bjoerkas Grymyr, s333778
 
