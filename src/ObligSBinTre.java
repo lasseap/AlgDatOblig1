@@ -1,9 +1,10 @@
-////////////////// ObligSBinTre /////////////////////////////////
+// Lasse Apalnes Pedersem, s333761
+// Fredrik Arne Rikheim, s328084
+// Andreas Bjoerkas Grymyr, s333778
 
 import java.util.*;
 
-public class ObligSBinTre<T> implements Beholder<T>
-{
+public class ObligSBinTre<T> implements Beholder<T> {
   private static final class Node<T>   // en indre nodeklasse
   {
     private T verdi;                   // nodens verdi

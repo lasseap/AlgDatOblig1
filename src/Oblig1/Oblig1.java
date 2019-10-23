@@ -1,4 +1,4 @@
-// Lasse Apalnes Pedersem, s333761
+package Oblig1;// Lasse Apalnes Pedersem, s333761
 // Fredrik Arne Rikheim, s328084
 // Andreas Bjorkas Grymyr, s333778
 
