@@ -1,4 +1,6 @@
-package Oblig3;// Fredrik Arne Rikheim, s328084
+package Oblig3;
+// Lasse Apalnes Pedersen, s333761
+// Fredrik Arne Rikheim, s328084
 // Andreas Bjoerkas Grymyr, s333778
 
 import java.util.*;
