@@ -405,7 +405,7 @@ public class Oblig3Test {
         String s = null;
 
         try {
-            s = tre.høyreGren();
+            s = tre.hoeyreGren();
             if (!s.equals("[]")) {
                 antallFeil++;
                 System.out.println("Oppgave 6a: Det skal bli [] for et tomt tre!");
@@ -417,7 +417,7 @@ public class Oblig3Test {
         }
 
         tre.leggInn(3);
-        s = tre.høyreGren();
+        s = tre.hoeyreGren();
 
         if (!s.equals("[3]")) {
             antallFeil++;
@@ -428,7 +428,7 @@ public class Oblig3Test {
         int[] a = {1, 8, 2, 4, 7, 5, 6, 6};
         for (int verdi : a) tre.leggInn(verdi);
 
-        s = tre.høyreGren();
+        s = tre.hoeyreGren();
         if (!s.equals("[3, 8, 4, 7, 5, 6, 6]")) {
             antallFeil++;
             System.out.print("Oppgave 6d: Feil - du har " + s + ", det skal");
@@ -443,7 +443,7 @@ public class Oblig3Test {
         tre.leggInn(2);
         tre.leggInn(1);
 
-        s = tre.høyreGren();
+        s = tre.hoeyreGren();
         if (!s.equals("[4, 3, 2, 1]")) {
             antallFeil++;
             System.out.print("Oppgave 6e: Feil - du har " + s + ", det skal");
