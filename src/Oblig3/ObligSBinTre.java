@@ -1,4 +1,4 @@
-// Fredrik Arne Rikheim, s328084
+package Oblig3;// Fredrik Arne Rikheim, s328084
 // Andreas Bjoerkas Grymyr, s333778
 
 import java.util.*;
@@ -666,4 +666,4 @@ public class ObligSBinTre<T> implements Beholder<T> {
 
   } // BladnodeIterator
 
-} // ObligSBinTre
+} // Oblig3.ObligSBinTre

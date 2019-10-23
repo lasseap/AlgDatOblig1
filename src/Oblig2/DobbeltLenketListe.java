@@ -1,4 +1,4 @@
-////////////////// class DobbeltLenketListe //////////////////////////////
+package Oblig2;////////////////// class Oblig2.DobbeltLenketListe //////////////////////////////
 
 // Lasse Apalnes Pedersen, s333761
 // Fredrik Arne Rikheim, s328084
@@ -511,6 +511,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
 
-} // class DobbeltLenketListe
+} // class Oblig2.DobbeltLenketListe
 
 
